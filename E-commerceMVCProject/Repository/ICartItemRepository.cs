@@ -1,6 +1,6 @@
 ﻿namespace E_commerceMVCProject.Repository
 {
-    public interface ICartRepository
+    public interface ICartItemRepository
     {
     }
 }
