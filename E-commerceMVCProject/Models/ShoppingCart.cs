@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace E_commerceMVCProject.Models
 {
-    public class Cart
+    public class ShoppingCart
     {
         public int Id { get; set; }
         public string UserId { get; set; }

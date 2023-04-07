@@ -1,6 +1,9 @@
-﻿namespace E_commerceMVCProject.Repository
+﻿using E_commerceMVCProject.Models;
+
+namespace E_commerceMVCProject.Repository
 {
-    public interface IOrderRepository
+    public interface IOrderRepository : IRepository<Order>
     {
+        Order GetByUserId(string userId);
     }
 }

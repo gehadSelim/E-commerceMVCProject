@@ -1,4 +1,5 @@
 using E_commerceMVCProject.Models;
+using E_commerceMVCProject.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_commerceMVCProject
@@ -14,6 +15,11 @@ namespace E_commerceMVCProject
             builder.Services.AddDbContext<EComEntity>(options=>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
             );
+
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+            builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
+            builder.Services.AddScoped<IProductrepository, ProductRepository>();
 
             var app = builder.Build();
 
