@@ -19,7 +19,6 @@ namespace E_commerceMVCProject
 
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
-            builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IRepository<Order>, Repository<Order>>();
             builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
