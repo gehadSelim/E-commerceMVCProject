@@ -14,7 +14,6 @@ namespace E_commerceMVCProject.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<ShoppingCart> Carts { get; set; }
-        public DbSet<CartItem> CartItems { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -24,8 +23,6 @@ namespace E_commerceMVCProject.Models
             new OrderDetailEntityTypeConfiguration().Configure(modelBuilder.Entity<OrderDetail>());
 
             new ProductEntityTypeConfiguration().Configure(modelBuilder.Entity<Product>());
-
-            new ShoppingCartEntityTypeConfiguration().Configure(modelBuilder.Entity<ShoppingCart>());
 
 
         }

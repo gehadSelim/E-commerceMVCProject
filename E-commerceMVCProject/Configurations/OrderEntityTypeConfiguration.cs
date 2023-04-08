@@ -17,6 +17,8 @@ namespace E_commerceMVCProject.Configurations
             builder
                 .Property(o => o.OrderDate)
                 .HasDefaultValueSql("GETDATE()");
+
+            builder.HasQueryFilter(o => !o.IsDeleted);
         }
     }
 }

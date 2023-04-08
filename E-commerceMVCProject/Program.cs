@@ -1,5 +1,6 @@
 using E_commerceMVCProject.Models;
 using E_commerceMVCProject.Repository;
+using E_commerceMVCProject.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_commerceMVCProject
@@ -16,10 +17,14 @@ namespace E_commerceMVCProject
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
             );
 
-            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-            builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
-            builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
-            builder.Services.AddScoped<IProductrepository, ProductRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
+            builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IRepository<Order>, Repository<Order>>();
+            builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
+            builder.Services.AddScoped<IRepository<OrderDetail>, Repository<OrderDetail>>();
+            builder.Services.AddScoped<IRepository<ShoppingCart>, Repository<ShoppingCart>>();
 
             var app = builder.Build();
 

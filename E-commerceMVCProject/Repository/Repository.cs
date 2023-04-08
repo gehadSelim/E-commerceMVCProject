@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using E_commerceMVCProject.Models;
 using System.Linq.Expressions;
+using System.Linq;
 
 namespace E_commerceMVCProject.Repository
 {
@@ -17,23 +18,14 @@ namespace E_commerceMVCProject.Repository
             _dbSet = context.Set<T>();
         }
 
-        public List<T> GetAll()
+        public IQueryable<T> GetAll()
         {
-            return _dbSet.ToList();
+            return _dbSet.AsQueryable();
         }
         
         public T GetById(int id) 
         {
             return _dbSet.Find(id);
-        }
-        public T GetByIdWithInclude(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
-        {
-            IQueryable<T> query = _dbSet.AsQueryable().Where(predicate);
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
-            return query.FirstOrDefault();
         }
         public void Insert(T entity)
         {
