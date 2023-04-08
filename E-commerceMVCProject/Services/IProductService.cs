@@ -9,5 +9,7 @@ namespace E_commerceMVCProject.Services
         void AddProduct(Product product);
         void UpdateProduct(Product product);
         void DeleteProduct(int id);
+        List<Product> GetBestSellingProducts();
+        List<Product> GetBestProfitProducts();
     }
 }
