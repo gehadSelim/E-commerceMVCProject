@@ -18,7 +18,7 @@ namespace E_commerceMVCProject.Services
 
         public List<Product> GetAllProducts()
         {
-            return _productRepository.GetAll().Include(p=>p.Images).ToList();
+            return _productRepository.GetAll().ToList().Where(p => p.StockCount != 0).ToList();
         }
 
         public Product? GetProductById(int id)
@@ -83,14 +83,13 @@ namespace E_commerceMVCProject.Services
         {
             return _productRepository.GetAll().Where(p => p.BrandId == BrandId).ToList();
         }
-        public Product GetProductByName(string name)
+        public List<Product> SearchByName(string searchName)
         {
-            return _productRepository.GetAll().Include(p => p.Images).FirstOrDefault(p => p.Name == name.ToLower());
+            return _productRepository.GetAll().Where(p => p.Name.Contains(searchName)).ToList();
         }
-        public List<Product> SearchPrice(int? low, int? high)
+        public List<Product> FilterByPrice(int low, int high)
         {
-            var Result = _productRepository.GetAll().Include(p => p.Images).Include(p => p.ProductCategory).Where(p => (p.SellingPrice >= low && p.SellingPrice <= high)).ToList();
-            return Result;
+            return _productRepository.GetAll().Where(p => (p.SellingPrice >= low && p.SellingPrice <= high)).ToList();
         }
     }
 }

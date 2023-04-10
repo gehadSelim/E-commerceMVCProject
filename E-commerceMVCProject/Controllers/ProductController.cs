@@ -22,75 +22,17 @@ namespace E_commerceMVCProject.Controllers
             _productBrandService = productBrandService;
             _webHostEnvironment = webHostEnvironment;
         }
-        public IActionResult Index(List<Product> filteredProducts)
+        public IActionResult Index()
         {
-            if (filteredProducts == null)
-            {
-                List<Product>? Products = _productService.GetAllProducts().Where(p => p.StockCount != 0).ToList();
-                return View(Products);
-            }
-            else
-            {
-                List<Product>? Products = _productService.GetAllProducts().Where(p => p.StockCount != 0).ToList();
-                return View(Products);
-            }
-        }
-        public IActionResult FilterByName(string searchString)
-        {
-            var allProducts = _productService.GetAllProducts();
+            List<Product>? Products = _productService.GetAllProducts();
+            return View(Products);
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                var filteredResultNew = allProducts.Where(n => string.Equals(n.Name, searchString, StringComparison.CurrentCultureIgnoreCase) || string.Equals(n.Description, searchString, StringComparison.CurrentCultureIgnoreCase)).ToList();
-
-                return View("Index", filteredResultNew);
-            }
-
-            return View("Index", allProducts);
-        }
-        public IActionResult FilterByCategory(int Categoryid)
-        {
-            var allProducts = _productService.GetAllProducts();
-
-            if (Categoryid != null)
-            {
-                var filteredResultNew = allProducts.Where(p => p.CategoryId == Categoryid).ToList();
-
-                return View("Index", filteredResultNew);
-            }
-            return View("Index", allProducts);
-        }
-        public IActionResult FilterByBrand(int BrandId)
-        {
-            var allProducts = _productService.GetAllProducts();
-
-            if (BrandId != null)
-            {
-                var filteredResultNew = allProducts.Where(p => p.BrandId == BrandId).ToList();
-
-                return View("Index", filteredResultNew);
-            }
-            return View("Index", allProducts);
-        }
-        public IActionResult FiltertByPrice(int? lowAmount, int? heighAmount)
-        {
-            var allProducts = _productService.GetAllProducts();
-            //    var Result = _productRepository.GetAll().Include(p => p.Images).Include(p => p.ProductCategory).Where(p => (p.SellingPrice >= low && p.SellingPrice <= high)).ToList();
-
-            if (lowAmount != null || heighAmount != null)
-            {
-                var filteredResultNew = allProducts.Where(p => (p.SellingPrice >= lowAmount && p.SellingPrice <= heighAmount)).ToList();
-
-                return View("Index", filteredResultNew);
-            }
-            return View(allProducts);
         }
         public IActionResult Details(int id)
         {
             Product? product = _productService.GetProductById(id);
             return View(product);
         }
-
         public IActionResult New()
         {
             NewProductVM ProductFormModel = new()
@@ -149,12 +91,12 @@ namespace E_commerceMVCProject.Controllers
         public IActionResult Edit(NewProductVM Edited)
         {
             Product? oldProduct = _productService.GetProductById(Edited.Id);
-            if (ModelState.IsValid)
+            if (oldProduct == null)
             {
-                if (oldProduct == null)
-                {
-                    return NotFound();
-                }
+                return NotFound();
+            }
+            else if (ModelState.IsValid)
+            {
                 oldProduct.Id = Edited.Id;
                 oldProduct.Name = Edited.Name;
                 oldProduct.Description = Edited.Description;
@@ -167,7 +109,6 @@ namespace E_commerceMVCProject.Controllers
 
                 _productService.UpdateProduct(oldProduct);
                 return RedirectToAction("Index");
-
             }
             return View("New", Edited);
         }
@@ -176,6 +117,7 @@ namespace E_commerceMVCProject.Controllers
             Product? deletedProduct = _productService.GetProductById(id);
             if (deletedProduct == null)
                 return NotFound();
+
             _productService.DeleteProduct(deletedProduct.Id);
             return RedirectToAction("Index");
         }
