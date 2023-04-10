@@ -40,43 +40,50 @@ namespace EcommerceApp.Controllers
                 userModel.Gender = registerVM.Gender;
                 userModel.UserName = registerVM.UserName;
                 userModel.PasswordHash = registerVM.Password;
-                IdentityResult result = await userManager.CreateAsync(userModel, userModel.PasswordHash);
-                if (result.Succeeded)
+
+                var emailcheck = await userManager.FindByEmailAsync(userModel.Email);
+                if (userModel == null)
                 {
-
-                    await userManager.AddToRoleAsync(userModel, "Customer");
-
-
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account",
-                        new { userId = userModel.Id, token = await userManager.GenerateEmailConfirmationTokenAsync(userModel) }, protocol: HttpContext.Request.Scheme);
-
-                    var subject = "Confirm your email";
-                    var body = $"Please confirm your email address by clicking this link: <a href='{callbackUrl}'>link</a>";
-
-
-                    var email = new MimeMessage();
-                    email.From.Add(MailboxAddress.Parse(From));
-                    email.To.Add(MailboxAddress.Parse(userModel.Email));
-                    email.Subject = subject;
-                    email.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = body };
-
-                    using var smtp = new SmtpClient();
-                    smtp.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-                    smtp.Authenticate(From, Password);
-                    smtp.Send(email);
-                    smtp.Disconnect(true);
-
-                    return RedirectToAction("ConfirmEmailSent");
-                }
-                else
-                {
-                    foreach (var item in result.Errors)
+                    IdentityResult result = await userManager.CreateAsync(userModel, userModel.PasswordHash);
+                    if (result.Succeeded)
                     {
-                        ModelState.AddModelError("", item.Description);
 
+                        await userManager.AddToRoleAsync(userModel, "Customer");
+
+
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account",
+                            new { userId = userModel.Id, token = await userManager.GenerateEmailConfirmationTokenAsync(userModel) }, protocol: HttpContext.Request.Scheme);
+
+                        var subject = "Confirm your email";
+                        var body = $"Please confirm your email address by clicking this link: <a href='{callbackUrl}'>link</a>";
+
+
+                        var email = new MimeMessage();
+                        email.From.Add(MailboxAddress.Parse(From));
+                        email.To.Add(MailboxAddress.Parse(userModel.Email));
+                        email.Subject = subject;
+                        email.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = body };
+
+                        using var smtp = new SmtpClient();
+                        smtp.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                        smtp.Authenticate(From, Password);
+                        smtp.Send(email);
+                        smtp.Disconnect(true);
+
+                        return RedirectToAction("ConfirmEmailSent");
+                    }
+                    else
+                    {
+                        foreach (var item in result.Errors)
+                        {
+                            ModelState.AddModelError("", item.Description);
+
+                        }
                     }
                 }
             }
+            TempData["Emailfound"] = "This Email Already Exisit";
+            TempData["alertType"] = "Error";
             return View(registerVM);
         }
 
