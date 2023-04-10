@@ -1,6 +1,7 @@
 using E_commerceMVCProject.Models;
 using E_commerceMVCProject.Repository;
 using E_commerceMVCProject.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_commerceMVCProject
@@ -24,6 +25,7 @@ namespace E_commerceMVCProject
             builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
             builder.Services.AddScoped<IRepository<OrderDetail>, Repository<OrderDetail>>();
             builder.Services.AddScoped<IRepository<ShoppingCart>, Repository<ShoppingCart>>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<EComEntity>().AddDefaultTokenProviders();
 
             var app = builder.Build();
 
@@ -36,6 +38,7 @@ namespace E_commerceMVCProject
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
