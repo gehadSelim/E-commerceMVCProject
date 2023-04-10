@@ -21,10 +21,9 @@ namespace E_commerceMVCProject
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
             builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddScoped<IRepository<Order>, Repository<Order>>();
-            builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
-            builder.Services.AddScoped<IRepository<OrderDetail>, Repository<OrderDetail>>();
-            builder.Services.AddScoped<IRepository<ShoppingCart>, Repository<ShoppingCart>>();
+            builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
+            builder.Services.AddScoped<IProductBrandService, ProductBrandService>();
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<EComEntity>().AddDefaultTokenProviders();
 
             var app = builder.Build();

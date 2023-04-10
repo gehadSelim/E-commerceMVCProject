@@ -13,6 +13,16 @@ namespace E_commerceMVCProject.Configurations
                 .HasMany(p => p.OrderDetails)
                 .WithOne(od => od.Product)
                 .HasForeignKey(od => od.ProductId);
+
+            builder
+                .HasOne(p => p.ProductCategory)
+                .WithMany(pc => pc.Products)
+                .HasForeignKey(pd => pd.CategoryId);
+
+            builder
+               .HasOne(p => p.ProductBrand)
+               .WithMany(pb => pb.Products)
+               .HasForeignKey(pd => pd.BrandId);
         }
     }
 }

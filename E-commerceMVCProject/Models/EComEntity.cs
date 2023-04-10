@@ -12,6 +12,8 @@ namespace E_commerceMVCProject.Models
         public EComEntity() : base() { }
         public EComEntity(DbContextOptions options) : base(options) { }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<ProductBrand> ProductBrands { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<ShoppingCart> Carts { get; set; }

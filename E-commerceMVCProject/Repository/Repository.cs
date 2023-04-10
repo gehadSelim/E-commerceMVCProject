@@ -48,9 +48,6 @@ namespace E_commerceMVCProject.Repository
                 Save();
             }
         }
-
-       
-
         public void Save()
         {
             _context.SaveChanges();

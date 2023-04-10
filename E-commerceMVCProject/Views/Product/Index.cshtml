@@ -1,0 +1,99 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<br />
+<div class="row ">
+    <div class="col-6">
+        <h2 class="text-info">Product List</h2>
+    </div>
+    <div class="col-6 text-end">
+        <a asp-action="New" class="btn btn-info text-white fw-bold" >
+            <i class="fa fa-plus" style="font-size:1.2rem;color:white"></i>
+            New Product
+        </a>
+    </div>
+</div>
+<form asp-action="Index" method="post">
+    <div class="row">
+        <div class="col-3">
+            <input type="number" name="lowAmount" class="form-control" />
+        </div>
+        <div class="col-3">
+            <input type="number" name="heighAmount" class="form-control" />
+        </div>
+        <div class="col-3">
+            <input type="submit"  class="btn btn-success" value="Search" />
+        </div>
+        <div class="col-3"></div>
+    </div>
+</form>
+<br />
+<div>
+    <table class="table table-striped border display" id="myTable" >
+      <thead>
+        <tr class="table-info">
+            <th>
+                Name
+            </th>
+            <th>Price</th>
+            <th>Product Color</th>
+            <th>Product Type</th>
+            <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.SellingPrice</td>
+                <td>@item.StockCount</td>
+                <td>@item.ProductCategory.Name</td>
+                <td class="text-end">
+                    <a href="/Products/Edit/@item.Id" class="btn btn-primary">
+                        <i class='fas fa-edit' style='font-size:1.4rem'></i>
+                    </a>
+                    <a href="/Products/Details/@item.Id" class="btn btn-success">
+                        <i class="fa fa-bars" style="font-size:1.4rem"></i>
+                    </a>
+                    <a href="/Products/Delete/@item.Id" class="btn btn-danger">
+                        <i class='far fa-trash-alt' style='font-size:1.4rem'></i>
+                    </a>
+                </td>
+            </tr>
+        }
+      </tbody>
+    </table>
+</div>
+@section Scripts
+    {
+    <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+        $(function () {
+            var save = '@TempData["save"]';
+            if (save != null) {
+                alertify.success(save);
+            }
+            var edit = '@TempData["edit"]';
+            if (edit != null) {
+                alertify.success(edit);
+            }
+          
+        })
+
+    </script>
+}
+

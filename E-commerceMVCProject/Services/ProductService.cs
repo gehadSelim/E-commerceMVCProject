@@ -1,5 +1,6 @@
 ﻿using E_commerceMVCProject.Models;
 using E_commerceMVCProject.Repository;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_commerceMVCProject.Services
@@ -20,7 +21,7 @@ namespace E_commerceMVCProject.Services
             return _productRepository.GetAll().Include(p=>p.Images).ToList();
         }
 
-        public Product GetProductById(int id)
+        public Product? GetProductById(int id)
         {
             return _productRepository.GetAll().Include(p => p.Images).FirstOrDefault(p=>p.Id == id);
         }
@@ -71,6 +72,25 @@ namespace E_commerceMVCProject.Services
 
             return products;
 
+        }
+
+        public List<Product> GetByCategoryId(int CategoryId)
+        {
+            return _productRepository.GetAll().Where(p => p.CategoryId == CategoryId).ToList();
+        }
+
+        public List<Product> GetByBrandId(int BrandId)
+        {
+            return _productRepository.GetAll().Where(p => p.BrandId == BrandId).ToList();
+        }
+        public Product GetProductByName(string name)
+        {
+            return _productRepository.GetAll().Include(p => p.Images).FirstOrDefault(p => p.Name == name.ToLower());
+        }
+        public List<Product> SearchPrice(int? low, int? high)
+        {
+            var Result = _productRepository.GetAll().Include(p => p.Images).Include(p => p.ProductCategory).Where(p => (p.SellingPrice >= low && p.SellingPrice <= high)).ToList();
+            return Result;
         }
     }
 }

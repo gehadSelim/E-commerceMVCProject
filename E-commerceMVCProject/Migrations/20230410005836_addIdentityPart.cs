@@ -273,7 +273,7 @@ namespace E_commerceMVCProject.Migrations
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.InsertData(
