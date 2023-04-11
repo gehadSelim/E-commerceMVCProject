@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Authorization;
 using E_commerceMVCProject.Models;
 using E_commerceMVCProject.viewmodels;
+using AutoMapper;
 
 namespace EcommerceApp.Controllers
 {
@@ -13,12 +14,15 @@ namespace EcommerceApp.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IMapper _mapper;
         private string From = "ayaahmed199910@gmail.com";
         private string Password = "wdoxhzsfsqlymiod";
-        public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager)
+        public AccountController(IMapper mapper, UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager)
         {
             this.userManager = _userManager;
             this.signInManager = _signInManager;
+            _mapper = mapper;
+
         }
 
         public IActionResult Register()
@@ -32,17 +36,11 @@ namespace EcommerceApp.Controllers
         {
             if (ModelState.IsValid == true)
             {
-                ApplicationUser userModel = new ApplicationUser();
-                userModel.FullName = registerVM.FullName;
-                userModel.Address = registerVM.Address;
-                userModel.BirthDate = registerVM.BirthDate;
-                userModel.Email = registerVM.Email;
-                userModel.Gender = registerVM.Gender;
-                userModel.UserName = registerVM.UserName;
-                userModel.PasswordHash = registerVM.Password;
+                var userModel = _mapper.Map<ApplicationUser>(registerVM);
+
 
                 var emailcheck = await userManager.FindByEmailAsync(userModel.Email);
-                if (userModel == null)
+                if (emailcheck == null)
                 {
                     IdentityResult result = await userManager.CreateAsync(userModel, userModel.PasswordHash);
                     if (result.Succeeded)
@@ -81,9 +79,13 @@ namespace EcommerceApp.Controllers
                         }
                     }
                 }
+                else
+                {
+                    TempData["Emailfound"] = "This Email Already Exisit";
+                    TempData["alertType"] = "Error";
+                }
             }
-            TempData["Emailfound"] = "This Email Already Exisit";
-            TempData["alertType"] = "Error";
+
             return View(registerVM);
         }
 
@@ -128,7 +130,6 @@ namespace EcommerceApp.Controllers
                 return View("ForgotPasswordConfirmation");
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
@@ -235,9 +236,6 @@ namespace EcommerceApp.Controllers
 
             return View(loginVM);
         }
-
-
-
         public IActionResult Logout()
         {
             signInManager.SignOutAsync();

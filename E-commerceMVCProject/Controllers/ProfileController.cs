@@ -1,4 +1,5 @@
-﻿using E_commerceMVCProject.Models;
+﻿using AutoMapper;
+using E_commerceMVCProject.Models;
 using E_commerceMVCProject.viewmodels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,8 +9,11 @@ namespace EcommerceApp.Controllers
     public class ProfileController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
-        public ProfileController(UserManager<ApplicationUser> userManager)
+        private readonly IMapper _mapper;
+
+        public ProfileController(IMapper mapper, UserManager<ApplicationUser> userManager)
         {
+            _mapper = mapper;
             this.userManager = userManager;
         }
 
@@ -28,15 +32,7 @@ namespace EcommerceApp.Controllers
 
             var userData = await userManager.FindByIdAsync(currentUser.Id);
 
-            var userModel = new PersonalDataVM
-            {
-                UserName = userData.UserName,
-                FullName = userData.FullName,
-                Email = userData.Email,
-                Gender = userData.Gender,
-                Address = userData.Address,
-                BirthDate = userData.BirthDate,
-            };
+            var userModel = _mapper.Map<RegisterVM>(userData);
 
             return PartialView(userModel);
         }
@@ -50,14 +46,7 @@ namespace EcommerceApp.Controllers
             {
                 return NotFound();
             }
-            var user = new RegisterVM();
-            user.FullName = model.FullName;
-            user.Gender = model.Gender;
-            user.Address = model.Address;
-            user.BirthDate = model.BirthDate;
-            user.Email = model.Email;
-            user.UserName = model.UserName;
-            user.Password = model.PasswordHash;
+            var user = _mapper.Map<RegisterVM>(model);
 
             return PartialView(user);
         }
@@ -87,6 +76,8 @@ namespace EcommerceApp.Controllers
             user.Email = model.Email;
             user.UserName = model.UserName;
             user.PasswordHash = newPasswordHash;
+
+
             var result = await userManager.UpdateAsync(user);
 
             if (!result.Succeeded)
@@ -100,4 +91,3 @@ namespace EcommerceApp.Controllers
         }
     }
 }
-
