@@ -1,6 +1,9 @@
 ﻿using E_commerceMVCProject.Models;
 using E_commerceMVCProject.Services;
+using E_commerceMVCProject.viewmodels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Security.Claims;
 
 namespace E_commerceMVCProject.Controllers
@@ -22,17 +25,16 @@ namespace E_commerceMVCProject.Controllers
             return View();
         }
 
-
+        [Authorize(Roles = "Customer")]
         [HttpPost]
-
         public IActionResult CheckOut()
         {
             String userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<ShoppingCart> shoppingCarts = _shoppingCartServics.GetCartByUserId(userId);
-            Order order = new Order();
+            List<ShoppingCartVM> shoppingCarts = _shoppingCartServics.GetCartByUserId(userId);
+            OrderVM order = new OrderVM();
             order.UserId = userId;
             decimal TotalPrice = 0;
-            foreach (ShoppingCart cart in shoppingCarts)
+            foreach (ShoppingCartVM cart in shoppingCarts)
             {
                 order.OrderDetails
                     .Add(new OrderDetail()

@@ -1,35 +1,40 @@
-﻿using E_commerceMVCProject.Models;
+﻿using AutoMapper;
+using E_commerceMVCProject.Models;
 using E_commerceMVCProject.Services;
+using E_commerceMVCProject.viewmodels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using System.Data;
 using System.Security.Claims;
 
 namespace E_commerceMVCProject.Controllers
 {
+    [Authorize(Roles = "Customer")]
     public class ShoppingCartController : Controller
     {
         private readonly IShoppingCartService _cartService;
-        private readonly IProductService _productService;
-        public ShoppingCartController(IShoppingCartService cartService, IProductService productService)
+
+        public ShoppingCartController(IShoppingCartService cartService)
         {
             _cartService = cartService;
-            _productService = productService;
+
         }
 
         public IActionResult Index()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<ShoppingCart> carts = _cartService.GetCartByUserId(userId);
+            List<ShoppingCartVM> carts = _cartService.GetCartByUserId(userId);
             return View(carts);
         }
         public IActionResult AddtoCart(int productId)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             
-            ShoppingCart existedCartProduct = _cartService.GetCartByProductandUserId(productId, userId);
+            ShoppingCartVM existedCartProduct = _cartService.GetCartByProductandUserId(productId, userId);
             if(existedCartProduct == null)
             {
-                ShoppingCart cart = new ShoppingCart();
+                ShoppingCartVM cart = new ShoppingCartVM();
                 cart.ProductId = productId;
                 cart.UserId = userId;
                 cart.Quantity=1;
@@ -47,12 +52,12 @@ namespace E_commerceMVCProject.Controllers
                     // out of stock
                 }
             }
-            return View();
+            return RedirectToAction("Index","Home");
         }
 
         public IActionResult PlusCart(int cartId)
         {
-            ShoppingCart cart = _cartService.GetCartById(cartId);
+            ShoppingCartVM cart = _cartService.GetCartById(cartId);
 
             if (cart.Quantity < cart.Product.StockCount)
             {
@@ -63,12 +68,12 @@ namespace E_commerceMVCProject.Controllers
             {
                 // out of stock
             }
-            return View();
+            return RedirectToAction("Index");
         }
 
         public IActionResult MinusCart(int cartId)
         {
-            ShoppingCart cart = _cartService.GetCartById(cartId);
+            ShoppingCartVM cart = _cartService.GetCartById(cartId);
 
             if (cart.Quantity > 1)
             {
@@ -79,13 +84,13 @@ namespace E_commerceMVCProject.Controllers
             {
                 _cartService.DeletefromCart(cartId);
             }
-            return View();
+            return RedirectToAction("Index");
         }
 
         public IActionResult RemoveFromCart(int cartId)
         {           
-                _cartService.DeletefromCart(cartId);
-            return View();
+            _cartService.DeletefromCart(cartId);
+            return RedirectToAction("Index");
         }
     }
 }

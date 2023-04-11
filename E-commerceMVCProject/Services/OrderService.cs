@@ -1,5 +1,7 @@
-﻿using E_commerceMVCProject.Models;
+﻿using AutoMapper;
+using E_commerceMVCProject.Models;
 using E_commerceMVCProject.Repository;
+using E_commerceMVCProject.viewmodels;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_commerceMVCProject.Services
@@ -8,14 +10,17 @@ namespace E_commerceMVCProject.Services
     {
 
         private readonly IRepository<Order> _orderRepository;
+        private readonly IMapper _mapper;
 
-        public OrderService(IRepository<Order> orderRepository)
+        public OrderService(IRepository<Order> orderRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
+            _mapper = mapper;
         }
 
-        public void CreateOrder(Order order)
+        public void CreateOrder(OrderVM orderVm)
         {
+            Order order = _mapper.Map<Order>(orderVm);
             _orderRepository.Insert(order);
         }
 
@@ -27,25 +32,28 @@ namespace E_commerceMVCProject.Services
 
         }
 
-        public List<Order> GetAllOrders()
+        public List<OrderVM> GetAllOrders()
         {
-            return _orderRepository.GetAll().ToList();
+            List<Order> orders = _orderRepository.GetAll().ToList();
+            return _mapper.Map<List<OrderVM>>(orders);
         }
 
-        public Order GetOrderById(int id)
+        public OrderVM GetOrderById(int id)
         {
-            return _orderRepository.GetAll().Include(o => o.OrderDetails).FirstOrDefault(o => o.Id == id);
-
+            Order order = _orderRepository.GetAll().Include(o => o.OrderDetails).FirstOrDefault(o => o.Id == id);
+            return _mapper.Map<OrderVM>(order);
         }
 
-        public List<Order> GetOrdersByDate(DateTime From, DateTime To)
+        public List<OrderVM> GetOrdersByDate(DateTime From, DateTime To)
         {
-            return _orderRepository.GetAll().Where(o => o.OrderDate >= From && o.OrderDate <= To).ToList();
+            List<Order> orders = _orderRepository.GetAll().Where(o => o.OrderDate >= From && o.OrderDate <= To).ToList();
+            return _mapper.Map<List<OrderVM>>(orders);
         }
 
-        public List<Order> GetOrdersByUserId(string userId)
+        public List<OrderVM> GetOrdersByUserId(string userId)
         {
-            return _orderRepository.GetAll().Where(o => o.UserId == userId).ToList();
+            List<Order> orders = _orderRepository.GetAll().Where(o => o.UserId == userId).ToList();
+            return _mapper.Map<List<OrderVM>>(orders);
         }
     }
 }

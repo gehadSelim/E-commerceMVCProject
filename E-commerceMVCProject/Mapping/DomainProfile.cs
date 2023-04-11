@@ -12,6 +12,8 @@ namespace E_commerceMVCProject.Mapping
             CreateMap<Product, ProductVM>().ReverseMap();
             CreateMap<ProductCategory, CategoryVM>().ReverseMap();
             CreateMap<ProductBrand, BrandVM>().ReverseMap();
+            CreateMap<Order, OrderVM>().ReverseMap();
+            CreateMap<ShoppingCart, ShoppingCartVM>().ReverseMap();
         }
     }
 }
