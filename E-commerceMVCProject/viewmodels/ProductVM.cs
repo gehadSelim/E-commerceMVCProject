@@ -14,6 +14,7 @@ namespace E_commerceMVCProject.viewmodels
         public decimal BuyingPrice { get; set; }
         public int CategoryId { get; set; }
         public int BrandId { get; set; }
+        public IFormFileCollection ImagesFiles { get; set; }
         public virtual ICollection<ProductImage> Images { get; set; }
         public ICollection<CategoryVM> Categories { get; set; }
         public ICollection<BrandVM> Brands { get; set; }

@@ -2,6 +2,7 @@
 using E_commerceMVCProject.Models;
 using E_commerceMVCProject.Repository;
 using E_commerceMVCProject.viewmodels;
+using MailKit.Search;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_commerceMVCProject.Services
@@ -17,15 +18,14 @@ namespace E_commerceMVCProject.Services
         }
         public List<CategoryVM> GetAllCategories()
         {
-            var bransList = _CategoryRepository.GetAll().ToList();
-            var CategoryVMList = _mapper.Map<List<ProductCategory>, List<CategoryVM>>(bransList);
+            var categoriesList = _CategoryRepository.GetAll().ToList();
+            var CategoryVMList = _mapper.Map<List<ProductCategory>, List<CategoryVM>>(categoriesList);
             return CategoryVMList;
         }
         public CategoryVM GetCategoryByID(int id)
         {
-            var Category = _CategoryRepository.GetAll().FirstOrDefault(Category => Category.Id == id);
-            var CategoryVM = _mapper.Map<ProductCategory, CategoryVM>(Category);
-            return CategoryVM;
+            ProductCategory category = _CategoryRepository.GetById(id);
+            return _mapper.Map<CategoryVM>(category);
         }
         public CategoryVM GetCategoryByIDNoTracking(int id)
         {
@@ -33,17 +33,15 @@ namespace E_commerceMVCProject.Services
             var CategoryVM = _mapper.Map<ProductCategory, CategoryVM>(Category);
             return CategoryVM;
         }
-        public CategoryVM AddCategory(CategoryVM CategoryVM)
+        public void AddCategory(CategoryVM CategoryVM)
         {
-            var Category = _mapper.Map<CategoryVM, ProductCategory>(CategoryVM);
-            _CategoryRepository.Insert(Category);
-            return CategoryVM;
+            ProductCategory category = _mapper.Map<ProductCategory>(CategoryVM);
+            _CategoryRepository.Insert(category);
         }
-        public CategoryVM UpdateCategory(CategoryVM CategoryVM)
+        public void UpdateCategory(CategoryVM CategoryVM)
         {
             var Category = _mapper.Map<CategoryVM, ProductCategory>(CategoryVM);
             _CategoryRepository.Update(Category);
-            return CategoryVM;
         }
         public void DeleteCategory(int id)
         {

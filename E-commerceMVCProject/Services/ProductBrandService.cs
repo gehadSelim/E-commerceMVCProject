@@ -17,8 +17,8 @@ namespace E_commerceMVCProject.Services
         }
         public List<BrandVM> GetAllBrands()
         {
-            var bransList = _brandRepository.GetAll().ToList();
-            var brandVMList = _mapper.Map<List<ProductBrand>, List<BrandVM>>(bransList);
+            var brandsList = _brandRepository.GetAll().ToList();
+            var brandVMList = _mapper.Map<List<ProductBrand>, List<BrandVM>>(brandsList);
             return brandVMList;
         }
         public BrandVM GetBrandByID(int id)
@@ -33,17 +33,15 @@ namespace E_commerceMVCProject.Services
             var brandVM = _mapper.Map<ProductBrand, BrandVM>(brand);
             return brandVM;
         }
-        public BrandVM AddBrand(BrandVM brandVM)
+        public void AddBrand(BrandVM brandVM)
         {
             var brand = _mapper.Map<BrandVM, ProductBrand>(brandVM);
             _brandRepository.Insert(brand);
-            return brandVM;
         }
-        public BrandVM UpdateBrand(BrandVM brandVM)
+        public void UpdateBrand(BrandVM brandVM)
         {
             var brand = _mapper.Map<BrandVM, ProductBrand>(brandVM);
             _brandRepository.Update(brand);
-            return brandVM;
         }
         public void DeleteBrand(int id)
         {

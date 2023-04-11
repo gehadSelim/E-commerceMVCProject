@@ -1,5 +1,8 @@
-﻿using E_commerceMVCProject.Models;
+﻿using AutoMapper;
+using E_commerceMVCProject.Models;
 using E_commerceMVCProject.Repository;
+using E_commerceMVCProject.viewmodels;
+using MailKit.Search;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,31 +12,46 @@ namespace E_commerceMVCProject.Services
     {
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<OrderDetail> _orderDetailRepository;
+        private readonly IMapper _mapper;
 
-        public ProductService(IRepository<Product> productRepository, IRepository<OrderDetail> orderDetailRepository)
+        public ProductService(IRepository<Product> productRepository, IRepository<OrderDetail> orderDetailRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _orderDetailRepository = orderDetailRepository;
+            _mapper = mapper;
         }
 
-        public List<Product> GetAllProducts()
+        public List<ProductVM> GetAllProducts()
         {
-            return _productRepository.GetAll().ToList().Where(p => p.StockCount != 0).ToList();
+            List<Product> products = _productRepository.GetAll().ToList().Where(product=>product.StockCount!=0).ToList();
+            return _mapper.Map<List<ProductVM>>(products);
+            //return _productRepository.GetAll().ToList().Where(p => p.StockCount != 0).ToList();
         }
 
-        public Product? GetProductById(int id)
+        public ProductVM? GetProductById(int id)
         {
-            return _productRepository.GetAll().Include(p => p.Images).FirstOrDefault(p=>p.Id == id);
+            Product product = _productRepository.GetById(id);
+            return _mapper.Map<ProductVM>(product);
+            //return _productRepository.GetAll().Include(p => p.Images).FirstOrDefault(p=>p.Id == id);
         }
-
-        public void AddProduct(Product product)
+        public ProductVM GetProductByIDNoTracking(int id)
         {
+            Product? product = _productRepository.GetAll().Where(product => product.Id == id).AsNoTracking().ToList().FirstOrDefault();
+            return _mapper.Map<ProductVM>(product);
+
+        }
+        public void AddProduct(ProductVM productVM)
+        {
+            Product product = _mapper.Map<Product>(productVM);
             _productRepository.Insert(product);
+            //_productRepository.Insert(product);
         }
 
-        public void UpdateProduct(Product product)
+        public void UpdateProduct(ProductVM productVM)
         {
+            Product product = _mapper.Map<Product>(productVM);
             _productRepository.Update(product);
+            //_productRepository.Update(product);
         }
 
         public void DeleteProduct(int id)

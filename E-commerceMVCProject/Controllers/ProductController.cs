@@ -2,6 +2,7 @@
 using E_commerceMVCProject.Services;
 using E_commerceMVCProject.viewmodels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.Protocol.Core.Types;
@@ -24,13 +25,13 @@ namespace E_commerceMVCProject.Controllers
         }
         public IActionResult Index()
         {
-            List<Product>? Products = _productService.GetAllProducts();
+            List<ProductVM>? Products = _productService.GetAllProducts();
             return View(Products);
 
         }
         public IActionResult Details(int id)
         {
-            Product? product = _productService.GetProductById(id);
+            ProductVM? product = _productService.GetProductById(id);
             return View(product);
         }
         public IActionResult Create()
@@ -43,30 +44,43 @@ namespace E_commerceMVCProject.Controllers
             return View(ProductFormModel);
         }
         [HttpPost]
-        public IActionResult Create(ProductVM newProduct, IFormFile Image)
+        public IActionResult Create(ProductVM newProduct)
         {
+            if (newProduct.ImagesFiles != null)
+            {
+                foreach (IFormFile file in newProduct.ImagesFiles)
+                {
+                    UploadImage(file);
+                }
+            }
             if (ModelState.IsValid)
             {
-                UploadImage(Image);
-                _productService.AddProduct(new Product()
-                {
-                    Id = newProduct.Id,
-                    Name = newProduct.Name,
-                    Description = newProduct.Description,
-                    StockCount = newProduct.StockCount,
-                    SellingPrice = newProduct.SellingPrice,
-                    BuyingPrice = newProduct.BuyingPrice,
-                    CategoryId = newProduct.CategoryId,
-                    BrandId = newProduct.BrandId,
-                    Images = newProduct.Images,
-                });
+                _productService.AddProduct(newProduct);
+                //_productService.AddProduct(new Product()
+                //{
+                //    Id = newProduct.Id,
+                //    Name = newProduct.Name,
+                //    Description = newProduct.Description,
+                //    StockCount = newProduct.StockCount,
+                //    SellingPrice = newProduct.SellingPrice,
+                //    BuyingPrice = newProduct.BuyingPrice,
+                //    CategoryId = newProduct.CategoryId,
+                //    BrandId = newProduct.BrandId,
+                //    Images = newProduct.Images,
+                    
+                //});
                 return RedirectToAction("Index");
             }
+            newProduct = new ProductVM()
+            {
+                Categories = _productCategoryService.GetAllCategories(),
+                Brands = _productBrandService.GetAllBrands(),
+            };
             return View(newProduct);
         }
         public IActionResult Edit(int id)
         {
-            Product? oldProduct = _productService.GetProductById(id);
+            ProductVM? oldProduct = _productService.GetProductById(id);
             if (oldProduct == null)
             {
                 return NotFound();
@@ -90,7 +104,7 @@ namespace E_commerceMVCProject.Controllers
         [HttpPost]
         public IActionResult Edit(ProductVM Edited)
         {
-            Product? oldProduct = _productService.GetProductById(Edited.Id);
+            ProductVM? oldProduct = _productService.GetProductById(Edited.Id);
             if (oldProduct == null)
             {
                 return NotFound();
@@ -114,25 +128,34 @@ namespace E_commerceMVCProject.Controllers
         }
         public IActionResult Delete(int id)
         {
-            Product? deletedProduct = _productService.GetProductById(id);
+            ProductVM? deletedProduct = _productService.GetProductById(id);
             if (deletedProduct == null)
                 return NotFound();
 
             _productService.DeleteProduct(deletedProduct.Id);
             return RedirectToAction("Index");
         }
-        private void UploadImage(IFormFile Image)
+        private void UploadImage(IFormFile image)
         {
-            if(Image != null)
+            string filename = string.Empty;
+            if (image != null)
             {
-                string rootPath = Path.Combine(_webHostEnvironment.WebRootPath + "Images");
-                string imageName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-                string filePath = Path.Combine(rootPath, imageName);
-                using (FileStream fileStream = new(filePath, FileMode.Create))
-                {
-                    Image.CopyTo(fileStream);
-                }
+
+                string uploads = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                filename = Guid.NewGuid().ToString() + "_" + image.FileName;
+                string fullpath = Path.Combine(uploads, filename);
+                image.CopyTo(new FileStream(fullpath, FileMode.Create));
             }
+            //if (image != null)
+            //{
+            //    string rootPath = Path.Combine(_webHostEnvironment.WebRootPath + "images");
+            //    string imageName = Guid.NewGuid().ToString() + "_" + image.FileName;
+            //    string filePath = Path.Combine(rootPath, imageName);
+            //    using (FileStream fileStream = new(filePath, FileMode.Create))
+            //    {
+            //        image.CopyTo(fileStream);
+            //    }
+            //}
 
         }
     }

@@ -8,8 +8,8 @@ namespace E_commerceMVCProject.Services
         List<CategoryVM> GetAllCategories();
         CategoryVM GetCategoryByID(int id);
         CategoryVM GetCategoryByIDNoTracking(int id);
-        CategoryVM AddCategory(CategoryVM CategoryVM);
-        CategoryVM UpdateCategory(CategoryVM CategoryVM);
+        void AddCategory(CategoryVM CategoryVM);
+        void UpdateCategory(CategoryVM CategoryVM);
         void DeleteCategory(int id);
     }
 }

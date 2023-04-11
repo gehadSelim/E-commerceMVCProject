@@ -1,13 +1,15 @@
 ﻿using E_commerceMVCProject.Models;
+using E_commerceMVCProject.viewmodels;
 
 namespace E_commerceMVCProject.Services
 {
     public interface IProductService
     {
-        List<Product> GetAllProducts();
-        Product? GetProductById(int id);
-        void AddProduct(Product product);
-        void UpdateProduct(Product product);
+        public List<ProductVM> GetAllProducts();
+        ProductVM? GetProductById(int id);
+        ProductVM GetProductByIDNoTracking(int id);
+        void AddProduct(ProductVM productVM);
+        void UpdateProduct(ProductVM productVM);
         void DeleteProduct(int id);
         List<Product> GetByCategoryId(int CategoryId);
         List<Product> GetByBrandId(int BrandId);

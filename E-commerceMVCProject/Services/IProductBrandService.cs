@@ -10,8 +10,8 @@ namespace E_commerceMVCProject.Services
         List<BrandVM> GetAllBrands();
         BrandVM GetBrandByID(int id);
         BrandVM GetBrandByIDNoTracking(int id);
-        BrandVM AddBrand(BrandVM brandVM);
-        BrandVM UpdateBrand(BrandVM brandVM);
+        void AddBrand(BrandVM brandVM);
+        void UpdateBrand(BrandVM brandVM);
         void DeleteBrand(int id);
     }
 }
