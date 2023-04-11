@@ -9,6 +9,7 @@ namespace E_commerceMVCProject.Mapping
     {
         public DomainProfile()
         {
+            CreateMap<Product, ProductVM>().ReverseMap();
             CreateMap<ProductCategory, CategoryVM>().ReverseMap();
             CreateMap<ProductBrand, BrandVM>().ReverseMap();
         }

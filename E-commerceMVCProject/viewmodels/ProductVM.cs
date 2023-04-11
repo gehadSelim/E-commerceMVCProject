@@ -7,10 +7,6 @@ namespace E_commerceMVCProject.viewmodels
     public class ProductVM
     {
         public int Id { get; set; }
-
-        [MinLength(2, ErrorMessage = "Min Length is 2 Letters")]
-        [MaxLength(20, ErrorMessage = "Max Length is 20 Letters")]
-        [UniqueName]
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal StockCount { get; set; }

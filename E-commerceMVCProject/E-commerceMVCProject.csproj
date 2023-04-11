@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Category\**" />
+    <Content Remove="Views\Category\**" />
+    <EmbeddedResource Remove="Views\Category\**" />
+    <None Remove="Views\Category\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Validations\UniqueNameAttribute.cs~RF1c326fe.TMP" />
   </ItemGroup>
 
@@ -28,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Validations\CategoryValidation\" />
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 

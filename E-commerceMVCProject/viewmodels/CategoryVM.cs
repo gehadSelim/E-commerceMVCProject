@@ -10,7 +10,6 @@ namespace E_commerceMVCProject.viewmodels
 
         [MinLength(2, ErrorMessage = "Min Length is 2 Letters")]
         [MaxLength(20, ErrorMessage = "Max Length is 20 Letters")]
-        [UniqueName]
         public string Name { get; set; }
     }
 }
