@@ -33,9 +33,9 @@ namespace E_commerceMVCProject.Controllers
             Product? product = _productService.GetProductById(id);
             return View(product);
         }
-        public IActionResult New()
+        public IActionResult Create()
         {
-            NewProductVM ProductFormModel = new()
+            ProductVM ProductFormModel = new()
             {
                 Categories = _productCategoryService.GetAllCategories(),
                 Brands = _productBrandService.GetAllBrands(),
@@ -43,7 +43,7 @@ namespace E_commerceMVCProject.Controllers
             return View(ProductFormModel);
         }
         [HttpPost]
-        public IActionResult Save(NewProductVM newProduct, IFormFile Image)
+        public IActionResult Create(ProductVM newProduct, IFormFile Image)
         {
             if (ModelState.IsValid)
             {
@@ -71,7 +71,7 @@ namespace E_commerceMVCProject.Controllers
             {
                 return NotFound();
             }
-            NewProductVM ProductFormModel = new()
+            ProductVM ProductFormModel = new()
             {
                 Id = oldProduct.Id,
                 Name = oldProduct.Name,
@@ -88,7 +88,7 @@ namespace E_commerceMVCProject.Controllers
             return View("New", ProductFormModel);
         }
         [HttpPost]
-        public IActionResult Edit(NewProductVM Edited)
+        public IActionResult Edit(ProductVM Edited)
         {
             Product? oldProduct = _productService.GetProductById(Edited.Id);
             if (oldProduct == null)

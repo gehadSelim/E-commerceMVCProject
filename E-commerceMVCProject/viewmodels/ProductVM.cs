@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace E_commerceMVCProject.viewmodels
 {
-    public class NewProductVM
+    public class ProductVM
     {
         public int Id { get; set; }
 
@@ -19,7 +19,7 @@ namespace E_commerceMVCProject.viewmodels
         public int CategoryId { get; set; }
         public int BrandId { get; set; }
         public virtual ICollection<ProductImage> Images { get; set; }
-        public ICollection<ProductCategory> Categories { get; set; }
-        public ICollection<ProductBrand> Brands { get; set; }
+        public ICollection<CategoryVM> Categories { get; set; }
+        public ICollection<BrandVM> Brands { get; set; }
     }
 }

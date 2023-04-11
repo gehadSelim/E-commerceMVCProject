@@ -1,13 +1,17 @@
-﻿using E_commerceMVCProject.Models;
+﻿using AutoMapper;
+using E_commerceMVCProject.Models;
+using E_commerceMVCProject.Repository;
+using E_commerceMVCProject.viewmodels;
 
 namespace E_commerceMVCProject.Services
 {
     public interface IProductBrandService
     {
-        List<ProductBrand> GetAllBrands();
-        ProductBrand? GetBrandById(int id);
-        void AddBrand(ProductBrand brand);
-        void UpdateBrand(ProductBrand brand);
+        List<BrandVM> GetAllBrands();
+        BrandVM GetBrandByID(int id);
+        BrandVM GetBrandByIDNoTracking(int id);
+        BrandVM AddBrand(BrandVM brandVM);
+        BrandVM UpdateBrand(BrandVM brandVM);
         void DeleteBrand(int id);
     }
 }

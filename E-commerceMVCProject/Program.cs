@@ -1,3 +1,4 @@
+using E_commerceMVCProject.Mapping;
 using E_commerceMVCProject.Models;
 using E_commerceMVCProject.Repository;
 using E_commerceMVCProject.Services;
@@ -17,7 +18,7 @@ namespace E_commerceMVCProject
             builder.Services.AddDbContext<EComEntity>(options=>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
             );
-
+            builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
             builder.Services.AddScoped<IProductService, ProductService>();

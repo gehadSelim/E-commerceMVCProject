@@ -13,8 +13,7 @@ namespace E_commerceMVCProject.Services
         List<Product> GetByBrandId(int BrandId);
         List<Product> GetBestSellingProducts();
         List<Product> GetBestProfitProducts();
-
-        //Product GetProductByName(string name);
-        //List<Product> SearchPrice(int? low, int? high);
+        List<Product> FilterByName(string searchName);
+        List<Product> FilterByPrice(int low, int high);
     }
 }

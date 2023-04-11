@@ -83,7 +83,7 @@ namespace E_commerceMVCProject.Services
         {
             return _productRepository.GetAll().Where(p => p.BrandId == BrandId).ToList();
         }
-        public List<Product> SearchByName(string searchName)
+        public List<Product> FilterByName(string searchName)
         {
             return _productRepository.GetAll().Where(p => p.Name.Contains(searchName)).ToList();
         }
