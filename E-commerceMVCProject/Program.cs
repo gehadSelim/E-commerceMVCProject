@@ -4,6 +4,7 @@ using E_commerceMVCProject.Repository;
 using E_commerceMVCProject.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace E_commerceMVCProject
 {
@@ -19,6 +20,8 @@ namespace E_commerceMVCProject
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
             );
             builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
+            builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
             builder.Services.AddScoped<IProductService, ProductService>();

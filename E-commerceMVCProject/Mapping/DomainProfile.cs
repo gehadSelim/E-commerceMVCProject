@@ -13,7 +13,7 @@ namespace E_commerceMVCProject.Mapping
             CreateMap<ProductCategory, CategoryVM>().ReverseMap();
             CreateMap<ProductBrand, BrandVM>().ReverseMap();
             CreateMap<Order, OrderVM>().ReverseMap();
-            CreateMap<ShoppingCart, ShoppingCartVM>().ReverseMap();
+            CreateMap<ShoppingCart, ShoppingCartVM>().ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product)).ReverseMap();
             CreateMap<ApplicationUser, RegisterVM>()
                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
