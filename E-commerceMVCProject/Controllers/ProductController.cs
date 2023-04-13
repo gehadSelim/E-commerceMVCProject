@@ -77,13 +77,12 @@ namespace E_commerceMVCProject.Controllers
             {
                 if (newProduct.ImagesFiles != null)
                 {
-                    string imageName = string.Empty;
                     foreach (IFormFile file in newProduct.ImagesFiles)
                     {
                         if (file != null)
                         {
-                            imageName = UploadImage(file, newProduct.Name);
-                            //store image in database
+                            string imageName = UploadImage(file, newProduct.Name);
+                            //store image name in database
                             StoreImage(newProduct.Id, imageName);
                         }
                     }
@@ -123,7 +122,12 @@ namespace E_commerceMVCProject.Controllers
                 {
                     foreach (IFormFile file in edited.ImagesFiles)
                     {
-                        UploadImage(file, edited.Name);
+                        if (file != null)
+                        {
+                            string imageName = UploadImage(file, edited.Name);
+                            //store image name in database
+                            StoreImage(edited.Id, imageName);
+                        }
                     }
                 }
                 _productService.UpdateProduct(edited);
@@ -145,10 +149,9 @@ namespace E_commerceMVCProject.Controllers
 
         private string UploadImage(IFormFile image, string productName)
         {
-            string filename = string.Empty;
             string uploads = Path.Combine(_webHostEnvironment.WebRootPath, "images", productName);
             Directory.CreateDirectory(uploads);
-            filename = Guid.NewGuid().ToString() + "_" + image.FileName;
+            string filename = Guid.NewGuid().ToString() + "_" + image.FileName;
             string fullpath = Path.Combine(uploads, filename);
             image.CopyTo(new FileStream(fullpath, FileMode.Create));
             return filename;

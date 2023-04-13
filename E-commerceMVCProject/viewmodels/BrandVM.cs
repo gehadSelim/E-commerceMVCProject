@@ -1,5 +1,4 @@
-﻿using E_commerceMVCProject.Models;
-using E_commerceMVCProject.Validations;
+﻿using E_commerceMVCProject.Validations.BrandValidation;
 using System.ComponentModel.DataAnnotations;
 
 namespace E_commerceMVCProject.viewmodels

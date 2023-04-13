@@ -1,5 +1,5 @@
 ﻿using E_commerceMVCProject.Models;
-using E_commerceMVCProject.Validations;
+using E_commerceMVCProject.Validations.ProductValidation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 

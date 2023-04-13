@@ -1,7 +1,6 @@
 ﻿using E_commerceMVCProject.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using E_commerceMVCProject.Models;
 using System.Linq.Expressions;
 using System.Linq;
 

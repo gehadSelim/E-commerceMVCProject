@@ -1,6 +1,10 @@
-﻿namespace E_commerceMVCProject.Validations.CategoryValidation
+﻿using E_commerceMVCProject.Services;
+using E_commerceMVCProject.viewmodels;
+using System.ComponentModel.DataAnnotations;
+
+namespace E_commerceMVCProject.Validations.CategoryValidation
 {
-    public class UniqueCategoryNameAttribute
+    public class UniqueCategoryNameAttribute: ValidationAttribute
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
