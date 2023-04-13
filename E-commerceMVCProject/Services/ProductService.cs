@@ -5,6 +5,7 @@ using E_commerceMVCProject.viewmodels;
 using MailKit.Search;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace E_commerceMVCProject.Services
 {
@@ -23,20 +24,18 @@ namespace E_commerceMVCProject.Services
 
         public List<ProductVM> GetAllProducts()
         {
-            List<Product> products = _productRepository.GetAll().ToList().Where(product=>product.StockCount!=0).ToList();
+            List<Product> products = _productRepository.GetAll().Include(p => p.Images).ToList().Where(product => product.StockCount != 0).ToList();
             return _mapper.Map<List<ProductVM>>(products);
-            //return _productRepository.GetAll().ToList().Where(p => p.StockCount != 0).ToList();
         }
 
         public ProductVM? GetProductById(int id)
         {
-            Product product = _productRepository.GetById(id);
+            Product? product = _productRepository.GetAll().Include(p => p.Images).FirstOrDefault(p => p.Id == id);
             return _mapper.Map<ProductVM>(product);
-            //return _productRepository.GetAll().Include(p => p.Images).FirstOrDefault(p=>p.Id == id);
         }
         public ProductVM GetProductByIDNoTracking(int id)
         {
-            Product? product = _productRepository.GetAll().Where(product => product.Id == id).AsNoTracking().ToList().FirstOrDefault();
+            Product? product = _productRepository.GetAll().Include(p => p.Images).Where(product => product.Id == id).AsNoTracking().ToList().FirstOrDefault();
             return _mapper.Map<ProductVM>(product);
 
         }
@@ -44,14 +43,12 @@ namespace E_commerceMVCProject.Services
         {
             Product product = _mapper.Map<Product>(productVM);
             _productRepository.Insert(product);
-            //_productRepository.Insert(product);
         }
 
         public void UpdateProduct(ProductVM productVM)
         {
             Product product = _mapper.Map<Product>(productVM);
             _productRepository.Update(product);
-            //_productRepository.Update(product);
         }
 
         public void DeleteProduct(int id)
@@ -59,7 +56,7 @@ namespace E_commerceMVCProject.Services
             _productRepository.Delete(id);
         }
 
-        public List<Product> GetBestSellingProducts()
+        public List<ProductVM> GetBestSellingProducts()
         {
             var topSellingProducts = _orderDetailRepository.GetAll()
                     .GroupBy(d => d.ProductId)
@@ -72,10 +69,10 @@ namespace E_commerceMVCProject.Services
                     .Where(p => topSellingProducts.Any(tp => tp.ProductId == p.Id))
                     .ToList();
 
-            return products;
+            return _mapper.Map<List<ProductVM>>(products);
         }
 
-        public List<Product> GetBestProfitProducts()
+        public List<ProductVM> GetBestProfitProducts()
         {
             var topProfitProducts = _orderDetailRepository.GetAll()
                     .GroupBy(d => d.ProductId)
@@ -88,26 +85,42 @@ namespace E_commerceMVCProject.Services
                     .Where(p => topProfitProducts.Any(tp => tp.ProductId == p.Id))
                     .ToList();
 
+            return _mapper.Map<List<ProductVM>>(products);
+        }
+
+        public List<ProductVM> GetByCategoryId(int CategoryId)
+        {
+            List<Product> products = _productRepository.GetAll().Include(p => p.Images).Where(p => p.CategoryId == CategoryId).ToList();
+            return _mapper.Map<List<ProductVM>>(products);
+        }
+        public List<ProductVM> GetByBrandId(int BrandId)
+        {
+            List<Product> products = _productRepository.GetAll().Include(p => p.Images).Where(p => p.BrandId == BrandId).ToList();
+            return _mapper.Map<List<ProductVM>>(products);
+        }
+        public List<ProductVM> FilterByName(string searchName)
+        {
+            List<Product> products = _productRepository.GetAll().Include(p => p.Images).Where(p => p.Name.Contains(searchName)).ToList();
+            return _mapper.Map<List<ProductVM>>(products);
+        }
+        public List<ProductVM> FilterByPrice(int low, int high)
+        {
+            List<Product> products = _productRepository.GetAll().Include(p => p.Images).Where(p => (p.SellingPrice >= low && p.SellingPrice <= high)).ToList();
+            return _mapper.Map<List<ProductVM>>(products);
+        }
+
+        public List<List<ProductVM>> FilterbyBrands(List<int> BrandsIds)
+        {
+            List<List<ProductVM>> products = new List<List<ProductVM>>();
+            if (BrandsIds.Any())
+            {
+                foreach (int brandId in BrandsIds)
+                {
+                    products.Add(GetByBrandId(brandId).ToList());
+                }
+            }
             return products;
-
-        }
-
-        public List<Product> GetByCategoryId(int CategoryId)
-        {
-            return _productRepository.GetAll().Where(p => p.CategoryId == CategoryId).ToList();
-        }
-
-        public List<Product> GetByBrandId(int BrandId)
-        {
-            return _productRepository.GetAll().Where(p => p.BrandId == BrandId).ToList();
-        }
-        public List<Product> FilterByName(string searchName)
-        {
-            return _productRepository.GetAll().Where(p => p.Name.Contains(searchName)).ToList();
-        }
-        public List<Product> FilterByPrice(int low, int high)
-        {
-            return _productRepository.GetAll().Where(p => (p.SellingPrice >= low && p.SellingPrice <= high)).ToList();
         }
     }
 }
+

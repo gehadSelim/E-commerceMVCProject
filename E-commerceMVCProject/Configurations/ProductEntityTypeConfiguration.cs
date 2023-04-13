@@ -10,6 +10,11 @@ namespace E_commerceMVCProject.Configurations
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder
+           .HasMany(p => p.Images)
+           .WithOne(od => od.Product)
+           .HasForeignKey(od => od.ProductId);
+
+            builder
                 .HasMany(p => p.OrderDetails)
                 .WithOne(od => od.Product)
                 .HasForeignKey(od => od.ProductId);

@@ -18,9 +18,8 @@ namespace E_commerceMVCProject.Services
         }
         public List<CategoryVM> GetAllCategories()
         {
-            var categoriesList = _CategoryRepository.GetAll().ToList();
-            var CategoryVMList = _mapper.Map<List<ProductCategory>, List<CategoryVM>>(categoriesList);
-            return CategoryVMList;
+            List<ProductCategory> categories = _CategoryRepository.GetAll().ToList();
+            return _mapper.Map<List<CategoryVM>>(categories);
         }
         public CategoryVM GetCategoryByID(int id)
         {
@@ -29,9 +28,8 @@ namespace E_commerceMVCProject.Services
         }
         public CategoryVM GetCategoryByIDNoTracking(int id)
         {
-            var Category = _CategoryRepository.GetAll().Where(Category => Category.Id == id).AsNoTracking().ToList().FirstOrDefault();
-            var CategoryVM = _mapper.Map<ProductCategory, CategoryVM>(Category);
-            return CategoryVM;
+            ProductCategory category = _CategoryRepository.GetAll().Where(category => category.Id == id).AsNoTracking().ToList().FirstOrDefault();
+            return _mapper.Map<CategoryVM>(category);
         }
         public void AddCategory(CategoryVM CategoryVM)
         {
@@ -40,8 +38,8 @@ namespace E_commerceMVCProject.Services
         }
         public void UpdateCategory(CategoryVM CategoryVM)
         {
-            var Category = _mapper.Map<CategoryVM, ProductCategory>(CategoryVM);
-            _CategoryRepository.Update(Category);
+            ProductCategory category = _mapper.Map<ProductCategory>(CategoryVM);
+            _CategoryRepository.Update(category);
         }
         public void DeleteCategory(int id)
         {

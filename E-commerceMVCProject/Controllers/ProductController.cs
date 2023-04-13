@@ -6,35 +6,62 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.Protocol.Core.Types;
+using System.Drawing.Imaging;
 
 namespace E_commerceMVCProject.Controllers
 {
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IProductImageService _productImageService;
         private readonly IProductCategoryService _productCategoryService;
         private readonly IProductBrandService _productBrandService;
         private readonly IWebHostEnvironment _webHostEnvironment;
-
-        public ProductController(IProductService productService, IProductCategoryService productCategoryService, IProductBrandService productBrandService, IWebHostEnvironment webHostEnvironment)
+        public ProductController(IProductService productService, IProductImageService productImageService, IProductCategoryService productCategoryService, IProductBrandService productBrandService, IWebHostEnvironment webHostEnvironment)
         {
             _productService = productService;
+            _productImageService = productImageService;
             _productCategoryService = productCategoryService;
             _productBrandService = productBrandService;
             _webHostEnvironment = webHostEnvironment;
         }
-        public IActionResult Index()
+        public IActionResult Index(List<ProductVM>? filteredProducts)
         {
+            if (filteredProducts != null)
+            {
+                return View(filteredProducts);
+            }
             List<ProductVM>? Products = _productService.GetAllProducts();
             return View(Products);
+        }
+        public IActionResult FilterByBrands(List<int> brandsIds)
+        {
+            var filteredProducts = _productService.FilterbyBrands(brandsIds);
+            List<ProductVM> flattenedList = filteredProducts.SelectMany(d => d).ToList();
+            return View("index", flattenedList);
+        }
 
+        public IActionResult FilterByPrice(int minPrice, int maxPrice)
+        {
+            var filteredProducts = _productService.FilterByPrice(minPrice, maxPrice);
+            return View("index", filteredProducts);
+        }
+        public IActionResult FilterByCategory(int categoryId)
+        {
+            var filteredProducts = _productService.GetByCategoryId(categoryId);
+            return View("index", filteredProducts);
+        }
+        public IActionResult FilterByName(string searchName)
+        {
+            var filteredProducts = _productService.FilterByName(searchName);
+            return View("index", filteredProducts);
         }
         public IActionResult Details(int id)
         {
             ProductVM? product = _productService.GetProductById(id);
             return View(product);
         }
-        public IActionResult Create()
+        public IActionResult New()
         {
             ProductVM ProductFormModel = new()
             {
@@ -44,31 +71,24 @@ namespace E_commerceMVCProject.Controllers
             return View(ProductFormModel);
         }
         [HttpPost]
-        public IActionResult Create(ProductVM newProduct)
+        public IActionResult New(ProductVM newProduct)
         {
-            if (newProduct.ImagesFiles != null)
-            {
-                foreach (IFormFile file in newProduct.ImagesFiles)
-                {
-                    UploadImage(file);
-                }
-            }
             if (ModelState.IsValid)
             {
+                if (newProduct.ImagesFiles != null)
+                {
+                    string imageName = string.Empty;
+                    foreach (IFormFile file in newProduct.ImagesFiles)
+                    {
+                        if (file != null)
+                        {
+                            imageName = UploadImage(file, newProduct.Name);
+                            //store image in database
+                            StoreImage(newProduct.Id, imageName);
+                        }
+                    }
+                }
                 _productService.AddProduct(newProduct);
-                //_productService.AddProduct(new Product()
-                //{
-                //    Id = newProduct.Id,
-                //    Name = newProduct.Name,
-                //    Description = newProduct.Description,
-                //    StockCount = newProduct.StockCount,
-                //    SellingPrice = newProduct.SellingPrice,
-                //    BuyingPrice = newProduct.BuyingPrice,
-                //    CategoryId = newProduct.CategoryId,
-                //    BrandId = newProduct.BrandId,
-                //    Images = newProduct.Images,
-                    
-                //});
                 return RedirectToAction("Index");
             }
             newProduct = new ProductVM()
@@ -85,46 +105,33 @@ namespace E_commerceMVCProject.Controllers
             {
                 return NotFound();
             }
-            ProductVM ProductFormModel = new()
-            {
-                Id = oldProduct.Id,
-                Name = oldProduct.Name,
-                Description = oldProduct.Description,
-                StockCount = oldProduct.StockCount,
-                SellingPrice = oldProduct.SellingPrice,
-                BuyingPrice = oldProduct.BuyingPrice,
-                CategoryId = oldProduct.CategoryId,
-                BrandId = oldProduct.BrandId,
-                Images = oldProduct.Images,
-                Categories = _productCategoryService.GetAllCategories(),
-                Brands = _productBrandService.GetAllBrands(),
-            };
-            return View("New", ProductFormModel);
+            oldProduct.Categories = _productCategoryService.GetAllCategories();
+            oldProduct.Brands = _productBrandService.GetAllBrands();
+            return View("New", oldProduct);
         }
         [HttpPost]
-        public IActionResult Edit(ProductVM Edited)
+        public IActionResult Edit(ProductVM edited)
         {
-            ProductVM? oldProduct = _productService.GetProductById(Edited.Id);
+            ProductVM? oldProduct = _productService.GetProductByIDNoTracking(edited.Id);
             if (oldProduct == null)
             {
                 return NotFound();
             }
-            else if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                oldProduct.Id = Edited.Id;
-                oldProduct.Name = Edited.Name;
-                oldProduct.Description = Edited.Description;
-                oldProduct.StockCount = Edited.StockCount;
-                oldProduct.SellingPrice = Edited.SellingPrice;
-                oldProduct.BuyingPrice = Edited.BuyingPrice;
-                oldProduct.Images = Edited.Images ?? oldProduct.Images;
-                oldProduct.CategoryId = Edited.CategoryId;
-                oldProduct.BrandId = Edited.BrandId;
-
-                _productService.UpdateProduct(oldProduct);
+                if (edited.ImagesFiles != null)
+                {
+                    foreach (IFormFile file in edited.ImagesFiles)
+                    {
+                        UploadImage(file, edited.Name);
+                    }
+                }
+                _productService.UpdateProduct(edited);
                 return RedirectToAction("Index");
             }
-            return View("New", Edited);
+            edited.Categories = _productCategoryService.GetAllCategories();
+            edited.Brands = _productBrandService.GetAllBrands();
+            return View("New", edited);
         }
         public IActionResult Delete(int id)
         {
@@ -135,28 +142,25 @@ namespace E_commerceMVCProject.Controllers
             _productService.DeleteProduct(deletedProduct.Id);
             return RedirectToAction("Index");
         }
-        private void UploadImage(IFormFile image)
+
+        private string UploadImage(IFormFile image, string productName)
         {
             string filename = string.Empty;
-            if (image != null)
+            string uploads = Path.Combine(_webHostEnvironment.WebRootPath, "images", productName);
+            Directory.CreateDirectory(uploads);
+            filename = Guid.NewGuid().ToString() + "_" + image.FileName;
+            string fullpath = Path.Combine(uploads, filename);
+            image.CopyTo(new FileStream(fullpath, FileMode.Create));
+            return filename;
+        }
+        private void StoreImage(int productId, string imageName)
+        {
+            ImageVM productImage = new()
             {
-
-                string uploads = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-                filename = Guid.NewGuid().ToString() + "_" + image.FileName;
-                string fullpath = Path.Combine(uploads, filename);
-                image.CopyTo(new FileStream(fullpath, FileMode.Create));
-            }
-            //if (image != null)
-            //{
-            //    string rootPath = Path.Combine(_webHostEnvironment.WebRootPath + "images");
-            //    string imageName = Guid.NewGuid().ToString() + "_" + image.FileName;
-            //    string filePath = Path.Combine(rootPath, imageName);
-            //    using (FileStream fileStream = new(filePath, FileMode.Create))
-            //    {
-            //        image.CopyTo(fileStream);
-            //    }
-            //}
-
+                ProductId = productId,
+                ImageName = imageName
+            };
+            _productImageService.AddImage(productImage);
         }
     }
 }

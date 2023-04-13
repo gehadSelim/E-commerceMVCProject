@@ -17,21 +17,18 @@ namespace E_commerceMVCProject.Services
         }
         public List<BrandVM> GetAllBrands()
         {
-            var brandsList = _brandRepository.GetAll().ToList();
-            var brandVMList = _mapper.Map<List<ProductBrand>, List<BrandVM>>(brandsList);
-            return brandVMList;
+            List<ProductBrand> brands = _brandRepository.GetAll().ToList();
+            return _mapper.Map<List<BrandVM>>(brands);
         }
         public BrandVM GetBrandByID(int id)
         {
-            var brand = _brandRepository.GetAll().FirstOrDefault(brand => brand.Id == id);
-            var brandVM = _mapper.Map<ProductBrand, BrandVM>(brand);
-            return brandVM;
+            ProductBrand brand = _brandRepository.GetById(id);
+            return _mapper.Map<BrandVM>(brand);
         }
         public BrandVM GetBrandByIDNoTracking(int id)
         {
-            var brand = _brandRepository.GetAll().Where(brand => brand.Id == id).AsNoTracking().ToList().FirstOrDefault();
-            var brandVM = _mapper.Map<ProductBrand, BrandVM>(brand);
-            return brandVM;
+            ProductBrand brand = _brandRepository.GetAll().Where(brand => brand.Id == id).AsNoTracking().ToList().FirstOrDefault();
+            return _mapper.Map<BrandVM>(brand);
         }
         public void AddBrand(BrandVM brandVM)
         {
@@ -40,7 +37,7 @@ namespace E_commerceMVCProject.Services
         }
         public void UpdateBrand(BrandVM brandVM)
         {
-            var brand = _mapper.Map<BrandVM, ProductBrand>(brandVM);
+            var brand = _mapper.Map<ProductBrand>(brandVM);
             _brandRepository.Update(brand);
         }
         public void DeleteBrand(int id)
