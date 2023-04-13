@@ -1,4 +1,5 @@
 ﻿using E_commerceMVCProject.Models;
+using E_commerceMVCProject.Validations.ImageValidation;
 using E_commerceMVCProject.Validations.ProductValidation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -21,6 +22,10 @@ namespace E_commerceMVCProject.viewmodels
 
         [DisplayName("Brand Name")]
         public int? BrandId { get; set; }
+
+        [Required(ErrorMessage = "Please select a file.")]
+        [DataType(DataType.Upload)]
+        [ValidateFile]
         public IFormFileCollection ImagesFiles { get; set; }
         public virtual ICollection<ProductImage>? Images { get; set; }
         public ICollection<CategoryVM>? Categories { get; set; }

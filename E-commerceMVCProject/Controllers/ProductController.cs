@@ -25,7 +25,7 @@ namespace E_commerceMVCProject.Controllers
             _productBrandService = productBrandService;
             _webHostEnvironment = webHostEnvironment;
         }
-        public IActionResult Index(List<ProductVM>? filteredProducts)
+        public IActionResult Index(List<ProductVM>? filteredProducts = null)
         {
             if (filteredProducts != null)
             {
@@ -77,17 +77,19 @@ namespace E_commerceMVCProject.Controllers
             {
                 if (newProduct.ImagesFiles != null)
                 {
+                    ProductVM recentlyAddedProduct = _productService.AddProduct(newProduct);
+                    int productId = recentlyAddedProduct.Id;
+                    //int productId = (int)_productService.GetLastId();
                     foreach (IFormFile file in newProduct.ImagesFiles)
                     {
                         if (file != null)
                         {
                             string imageName = UploadImage(file, newProduct.Name);
                             //store image name in database
-                            StoreImage(newProduct.Id, imageName);
+                            StoreImage(productId, imageName);
                         }
                     }
                 }
-                _productService.AddProduct(newProduct);
                 return RedirectToAction("Index");
             }
             newProduct = new ProductVM()

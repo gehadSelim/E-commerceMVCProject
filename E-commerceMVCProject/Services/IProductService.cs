@@ -5,11 +5,12 @@ namespace E_commerceMVCProject.Services
 {
     public interface IProductService
     {
-        public List<ProductVM> GetAllProducts();
+        List<ProductVM> GetAllProducts();
+        int? GetLastId();
         ProductVM? GetProductById(int id);
         ProductVM GetProductByIDNoTracking(int id);
-        void AddProduct(ProductVM productVM);
-        void UpdateProduct(ProductVM productVM);
+        ProductVM AddProduct(ProductVM productVM);
+        ProductVM UpdateProduct(ProductVM productVM);
         void DeleteProduct(int id);
         List<ProductVM> GetByCategoryId(int CategoryId);
         List<ProductVM> GetByBrandId(int BrandId);

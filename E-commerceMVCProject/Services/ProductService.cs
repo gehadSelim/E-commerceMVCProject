@@ -27,7 +27,10 @@ namespace E_commerceMVCProject.Services
             List<Product> products = _productRepository.GetAll().Include(p => p.Images).ToList().Where(product => product.StockCount != 0).ToList();
             return _mapper.Map<List<ProductVM>>(products);
         }
-
+        public int? GetLastId()
+        {
+            return GetAllProducts().LastOrDefault().Id;
+        }
         public ProductVM? GetProductById(int id)
         {
             Product? product = _productRepository.GetAll().Include(p => p.Images).FirstOrDefault(p => p.Id == id);
@@ -39,16 +42,20 @@ namespace E_commerceMVCProject.Services
             return _mapper.Map<ProductVM>(product);
 
         }
-        public void AddProduct(ProductVM productVM)
+        public ProductVM AddProduct(ProductVM productVM)
         {
             Product product = _mapper.Map<Product>(productVM);
             _productRepository.Insert(product);
+            return _mapper.Map<ProductVM>(product);
         }
 
-        public void UpdateProduct(ProductVM productVM)
+        public ProductVM UpdateProduct(ProductVM productVM)
         {
             Product product = _mapper.Map<Product>(productVM);
             _productRepository.Update(product);
+            return _mapper.Map<ProductVM>(product);
+
+
         }
 
         public void DeleteProduct(int id)
