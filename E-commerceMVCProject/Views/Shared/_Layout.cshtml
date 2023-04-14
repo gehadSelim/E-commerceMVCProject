@@ -59,7 +59,7 @@
                             <i class="fas fa-shopping-bag"></i>
                         </div>
                         <div class="text-xs leading-3">Cart</div>
-                        <span class="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">@ViewBag.cartCount</span>
+                        <span class="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs cart-count">@((Request.Cookies["CartCount"]?.Value ?? "0"))</span>
                     </a>
 
                     <a asp-controller="Account" asp-action="Profile"
@@ -140,9 +140,9 @@
             <!-- navbar links -->
             <div class="flex items-center justify-between flex-grow  pb-2 lg:pb-0 lg:pl-12">
                 <div class="flex items-center space-x-6 capitalize">
-                    <a href="./index.html"
+                    <a href="/Home/Index"
                        class="text-xs lg:text-lg text-gray-200 hover:text-white transition">Home</a>
-                    <a href="shop.html"
+                    <a href="/Home/Shop"
                        class="text-xs lg:text-lg text-gray-200 hover:text-white transition">Shop</a>
                     <a href=""
                        class="text-xs lg:text-lg text-gray-200 hover:text-white transition">About us</a>

@@ -9,7 +9,7 @@ namespace E_commerceMVCProject.Services
         List<OrderVM> GetOrdersByUserId(string userId);
         List<OrderVM> GetOrdersByDate(DateTime From, DateTime To);
         OrderVM GetOrderById(int id);
-        void CreateOrder(OrderVM orderVm);
+        void CreateOrder(Order orderVm);
         void DeleteOrder(int id);
     }
 }

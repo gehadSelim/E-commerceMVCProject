@@ -54,8 +54,6 @@ namespace E_commerceMVCProject.Services
             Product product = _mapper.Map<Product>(productVM);
             _productRepository.Update(product);
             return _mapper.Map<ProductVM>(product);
-
-
         }
 
         public void DeleteProduct(int id)

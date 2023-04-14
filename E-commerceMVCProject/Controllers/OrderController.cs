@@ -31,9 +31,10 @@ namespace E_commerceMVCProject.Controllers
         {
             String userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             List<ShoppingCartVM> shoppingCarts = _shoppingCartServics.GetCartByUserId(userId);
-            OrderVM order = new OrderVM();
+            Order order = new Order();
             order.UserId = userId;
             decimal TotalPrice = 0;
+            order.OrderDetails = new List<OrderDetail>();
             foreach (ShoppingCartVM cart in shoppingCarts)
             {
                 order.OrderDetails
@@ -45,8 +46,9 @@ namespace E_commerceMVCProject.Controllers
                         SellingPrice = cart.Product.SellingPrice,
                         BuyingPrice = cart.Product.BuyingPrice
                     });
-                cart.Product.StockCount -= cart.Quantity;
-                _productService.UpdateProduct(cart.Product);
+                ProductVM product = _productService.GetProductByIDNoTracking(cart.ProductId);
+                product.StockCount -= cart.Quantity;
+                _productService.UpdateProduct(product);
                 TotalPrice += cart.Quantity * cart.Product.SellingPrice;
                 _shoppingCartServics.DeletefromCart(cart.Id);
             }

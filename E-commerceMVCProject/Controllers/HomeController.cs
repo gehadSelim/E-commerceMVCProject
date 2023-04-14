@@ -1,4 +1,6 @@
 ﻿using E_commerceMVCProject.Models;
+using E_commerceMVCProject.Services;
+using E_commerceMVCProject.viewmodels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -8,17 +10,59 @@ namespace E_commerceMVCProject.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IProductService _productService;
+        private readonly IProductImageService _productImageService;
+        private readonly IProductCategoryService _productCategoryService;
+        private readonly IProductBrandService _productBrandService;
+        public HomeController(ILogger<HomeController> logger,
+                              IProductService productService, 
+                              IProductImageService productImageService, 
+                              IProductCategoryService productCategoryService, 
+                              IProductBrandService productBrandService)
         {
             _logger = logger;
+             _productService = productService;
+            _productImageService = productImageService;
+            _productCategoryService = productCategoryService;
+            _productBrandService = productBrandService;
         }
-
+ 
         public IActionResult Index()
+        {
+            List<ProductVM>? Products = _productService.GetAllProducts();
+            return View(Products);
+        }
+        public IActionResult Shop()
         {
             return View();
         }
+        public IActionResult FilterByBrands(List<int> brandsIds)
+        {
+            var filteredProducts = _productService.FilterbyBrands(brandsIds);
+            List<ProductVM> flattenedList = filteredProducts.SelectMany(d => d).ToList();
+            return View("index", flattenedList);
+        }
 
+        public IActionResult FilterByPrice(int minPrice, int maxPrice)
+        {
+            var filteredProducts = _productService.FilterByPrice(minPrice, maxPrice);
+            return View("index", filteredProducts);
+        }
+        public IActionResult FilterByCategory(int categoryId)
+        {
+            var filteredProducts = _productService.GetByCategoryId(categoryId);
+            return View("index", filteredProducts);
+        }
+        public IActionResult FilterByName(string searchName)
+        {
+            var filteredProducts = _productService.FilterByName(searchName);
+            return View("index", filteredProducts);
+        }
+        public IActionResult Details(int id)
+        {
+            ProductVM? product = _productService.GetProductById(id);
+            return View(product);
+        }
         public IActionResult Privacy()
         {
             return View();

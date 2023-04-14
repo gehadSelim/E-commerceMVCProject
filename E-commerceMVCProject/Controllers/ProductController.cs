@@ -25,9 +25,9 @@ namespace E_commerceMVCProject.Controllers
             _productBrandService = productBrandService;
             _webHostEnvironment = webHostEnvironment;
         }
-        public IActionResult Index(List<ProductVM>? filteredProducts = null)
+        public IActionResult Index(List<ProductVM>? filteredProducts)
         {
-            if (filteredProducts != null)
+            if (filteredProducts?.Count != 0)
             {
                 return View(filteredProducts);
             }

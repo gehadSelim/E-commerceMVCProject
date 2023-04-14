@@ -28,20 +28,21 @@ namespace E_commerceMVCProject.Controllers
             List<ShoppingCartVM> carts = _cartService.GetCartByUserId(userId);
             return View(carts);
         }
-        public IActionResult AddtoCart(int productId)
+        public IActionResult AddtoCart(int id)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            ShoppingCartVM existedCartProduct = _cartService.GetCartByProductandUserId(productId, userId);
+            ShoppingCartVM existedCartProduct = _cartService.GetCartByProductandUserId(id, userId);
             if (existedCartProduct == null)
             {
                 ShoppingCartVM cart = new ShoppingCartVM();
-                cart.ProductId = productId;
+                cart.ProductId = id;
                 cart.UserId = userId;
                 cart.Quantity = 1;
                 _cartService.AddCart(cart);
                 ++cartCount;
-                ViewBag.cartCount = cartCount;
+                Response.Cookies.Append("CartCount",cartCount.ToString());
+                //ViewBag.cartCount = cartCount;
             }
             else
             {
@@ -58,9 +59,9 @@ namespace E_commerceMVCProject.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult PlusCart(int cartId)
+        public IActionResult PlusCart(int id)
         {
-            ShoppingCartVM cart = _cartService.GetCartById(cartId);
+            ShoppingCartVM cart = _cartService.GetCartById(id);
 
             if (cart.Quantity < cart.Product.StockCount)
             {
@@ -74,9 +75,9 @@ namespace E_commerceMVCProject.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult MinusCart(int cartId)
+        public IActionResult MinusCart(int id)
         {
-            ShoppingCartVM cart = _cartService.GetCartById(cartId);
+            ShoppingCartVM cart = _cartService.GetCartById(id);
 
             if (cart.Quantity > 1)
             {
@@ -85,14 +86,14 @@ namespace E_commerceMVCProject.Controllers
             }
             else
             {
-                _cartService.DeletefromCart(cartId);
+                _cartService.DeletefromCart(id);
             }
             return RedirectToAction("Index");
         }
 
-        public IActionResult RemoveFromCart(int cartId)
+        public IActionResult RemoveFromCart(int id)
         {
-            _cartService.DeletefromCart(cartId);
+            _cartService.DeletefromCart(id);
             return RedirectToAction("Index");
         }
     }

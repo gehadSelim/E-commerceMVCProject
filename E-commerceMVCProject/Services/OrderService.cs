@@ -18,10 +18,10 @@ namespace E_commerceMVCProject.Services
             _mapper = mapper;
         }
 
-        public void CreateOrder(OrderVM orderVm)
+        public void CreateOrder(Order orderVm)
         {
-            Order order = _mapper.Map<Order>(orderVm);
-            _orderRepository.Insert(order);
+            //Order order = _mapper.Map<Order>(orderVm);
+            _orderRepository.Insert(orderVm);
         }
 
         public void DeleteOrder(int id)

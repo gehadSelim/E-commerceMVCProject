@@ -1,0 +1,59 @@
+﻿@model E_commerceMVCProject.viewmodels.ProductVM
+@{
+    ViewData["Title"] = "New";       
+}
+
+
+<div class="registration-form">
+        <form method="post" asp-action="@(Model.Id>0?"Edit":"New")" asp-controller="Product" enctype="multipart/form-data">
+            <div class="form-group mb-3" asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group mb-3">
+            <input asp-for="ImagesFiles" class="form-control" placeholder="Product Image" type="file"  multiple />
+            <span asp-validation-for="ImagesFiles" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input asp-for="Name" class="form-control" placeholder="Product Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input asp-for="Description" class="form-control" placeholder="Product Description" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input asp-for="StockCount" class="form-control" placeholder="Product StockCount" />
+                <span asp-validation-for="StockCount" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input asp-for="SellingPrice" class="form-control" placeholder="Product SellingPrice" />
+                <span asp-validation-for="SellingPrice" class="text-danger"></span>
+            </div>
+             <div class="form-group mb-3">
+                <input asp-for="BuyingPrice" class="form-control" placeholder="Product BuyingPrice" />
+                <span asp-validation-for="BuyingPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+            <select class="form-control" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories,"Id", "Name"))">
+                    <option value="0">--Select Category--</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+             <div class="form-group mb-3">
+            <select class="form-control" asp-for="BrandId" asp-items="@(new SelectList(Model.Brands, "Id", "Name"))">
+                    <option value="0">--Select Brand--</option>
+             </select>
+             <span asp-validation-for="BrandId" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input type="submit" value="@(Model.Id > 0 ? "Update" : "New") Product" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+
+@section Scripts{
+    
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+}
+

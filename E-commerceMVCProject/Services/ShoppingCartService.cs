@@ -34,13 +34,13 @@ namespace E_commerceMVCProject.Services
 
         public ShoppingCartVM GetCartByProductandUserId(int productId, string userId)
         {
-            ShoppingCart cart = _cartRepository.GetAll().Include(c => c.Product).FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
+            ShoppingCart cart = _cartRepository.GetAll().Include(c => c.Product).ThenInclude(p=>p.Images).AsNoTracking().FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
             return _mapper.Map<ShoppingCartVM>(cart);
         }
 
         public List<ShoppingCartVM> GetCartByUserId(string userId)
         {
-            List<ShoppingCart> shoppingCarts = _cartRepository.GetAll().Include(c => c.Product).Where(c => c.UserId == userId).ToList();
+            List<ShoppingCart> shoppingCarts = _cartRepository.GetAll().Include(c => c.Product).ThenInclude(p => p.Images).Where(c => c.UserId == userId).AsNoTracking().ToList();
             return _mapper.Map<List<ShoppingCartVM>>(shoppingCarts);
         }
 
