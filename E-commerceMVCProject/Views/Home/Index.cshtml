@@ -1,20 +1,20 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@model List<E_commerceMVCProject.viewmodels.ProductVM>
-
+@model List<ProductVM>
+@inject IHttpContextAccessor HttpContextAccessor
        <!-- slider -->
 
         <div id="slider" class="w-full h-96">
             <div class="slide" style="background: white">
-                <img id="img_slide" src="img/iti-logo.png" class="h-full" />
+                <img id="img_slide" src="/img/slider.jpeg" class="h-full" />
             </div>
 
             <div class="slide" style="background: coral">
-                <img id="img_slide" src="img/2.avif" class="h-full" />
+                <img id="img_slide" src="/img/slider1.jpeg" class="h-full" />
             </div>
             <div class="slide" style="background: coral">
-                <img id="img_slide" src="img/2.avif" class="h-full" />
+                <img id="img_slide" src="/img/slider3.jpg" class="h-full" />
             </div>
 
             <!--Controlling arrows-->
@@ -40,103 +40,44 @@
                 shop by category
             </div>
             <div class="flex justify-center">
-                <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
-                    <!-- single category -->
-                    <div
-                        class="w-32 md:w-60 lg:w-full relative rounded-sm overflow-hidden group"
-                    >
-                        <img
-                            src="img//bedroom.avif"
-                            alt="categoryImg"
-                            class="w-full h-full"
-                        />
-                        <a
-                            href=""
-                            class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-sm lg:text-xl text-white font-roboto font-medium group-hover:bg-opacity-50 transition"
-                            >Bedroom</a
-                        >
-                    </div>
-                    <!-- single category-end -->
-                    <!-- single category -->
-                    <div
-                        class="w-32 md:w-60 lg:w-full relative rounded-sm overflow-hidden group"
-                    >
-                        <img
-                            src="img//bedroom.avif"
-                            alt="categoryImg"
-                            class="w-full h-full"
-                        />
-                        <a
-                            href=""
-                            class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-sm lg:text-xl text-white font-roboto font-medium group-hover:bg-opacity-50 transition"
-                            >Bedroom</a
-                        >
-                    </div>
-                    <!-- single category-end -->
-                    <!-- single category -->
-                    <div
-                        class="w-32 md:w-60 lg:w-full relative rounded-sm overflow-hidden group"
-                    >
-                        <img
-                            src="img//bedroom.avif"
-                            alt="categoryImg"
-                            class="w-full"
-                        />
-                        <a
-                            href=""
-                            class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-sm lg:text-xl text-white font-roboto font-medium group-hover:bg-opacity-50 transition"
-                            >Bedroom</a
-                        >
-                    </div>
-                    <!-- single category-end -->
-                    <!-- single category -->
-                    <div
-                        class="w-32 md:w-60 lg:w-full relative rounded-sm overflow-hidden group"
-                    >
-                        <img
-                            src="img//bedroom.avif"
-                            alt="categoryImg"
-                            class="w-full"
-                        />
-                        <a
-                            href=""
-                            class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-sm lg:text-xl text-white font-roboto font-medium group-hover:bg-opacity-50 transition"
-                            >Bedroom</a
-                        >
-                    </div>
-                    <!-- single category-end -->
-                    <!-- single category -->
-                    <div
-                        class="w-32 md:w-60 lg:w-full relative rounded-sm overflow-hidden group"
-                    >
-                        <img
-                            src="img//bedroom.avif"
-                            alt="categoryImg"
-                            class="w-full"
-                        />
-                        <a
-                            href=""
-                            class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-sm lg:text-xl text-white font-roboto font-medium group-hover:bg-opacity-50 transition"
-                            >Bedroom</a
-                        >
-                    </div>
-                    <!-- single category-end -->
-                    <!-- single category -->
-                    <div
-                        class="w-32 md:w-60 lg:w-full relative rounded-sm overflow-hidden group"
-                    >
-                        <img
-                            src="img//bedroom.avif"
-                            alt="categoryImg"
-                            class="w-full"
-                        />
-                        <a
-                            href=""
-                            class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-sm lg:text-xl text-white font-roboto font-medium group-hover:bg-opacity-50 transition"
-                            >Bedroom</a
-                        >
-                    </div>
-                    <!-- single category-end -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <!-- single category -->
+            <div class="w-32 md:w-60 lg:w-full relative rounded-sm overflow-hidden group">
+                <img src="/img/Women.jpeg"
+                     alt="categoryImg"
+                     class="w-full h-full" />
+                <a href=""
+                   class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-sm lg:text-xl text-white font-roboto font-medium group-hover:bg-opacity-50 transition">Women</a>
+            </div>
+            <!-- single category-end -->
+            <!-- single category -->
+            <div class="w-32 md:w-60 lg:w-full relative rounded-sm overflow-hidden group">
+                <img src="/img/Men.jpeg"
+                     alt="categoryImg"
+                     class="w-full h-full" />
+                <a href=""
+                   class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-sm lg:text-xl text-white font-roboto font-medium group-hover:bg-opacity-50 transition">Men</a>
+            </div>
+            <!-- single category-end -->
+             <!-- single category -->
+                <div class="w-32 md:w-60 lg:w-full relative rounded-sm overflow-hidden group">
+                <img src="/img/Children.jpeg"
+                     alt="categoryImg"
+                     class="w-full h-full" />
+                    <a href=""
+                   class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-sm lg:text-xl text-white font-roboto font-medium group-hover:bg-opacity-50 transition">Children</a>
+                </div>
+                <!-- single category-end -->
+            <!-- single category -->
+            <div class="w-32 md:w-60 lg:w-full relative rounded-sm overflow-hidden group">
+                <img src="/img/ring.jpeg"
+                     alt="categoryImg"
+                     class="w-full h-full" />
+                <a href=""
+                   class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-sm lg:text-xl text-white font-roboto font-medium group-hover:bg-opacity-50 transition">Accessories</a>
+            </div>
+            <!-- single category-end -->
+           
                 </div>
             </div>
         </div>
@@ -180,7 +121,7 @@
                     <div class="pt-4 pb-3 px-4">
                         <!-- name -->
                         <a href=""
-                       class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">chair</a>
+                       class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">@product.Name</a>
                         <!-- price -->
                         <div class="flex items-baseline mb-1 space-x-2 font-roboto">
                             <p class="text-xl text-primary font-semibold">
@@ -205,7 +146,8 @@
                         </div>
                     </div>
                     <!-- add to cart btn -->
-                    <a href="/ShoppingCart/AddtoCart/@product.Id"
+                    <a @*href="/ShoppingCart/AddtoCart/@product.Id"*@
+                   onclick="addToCart(@product.Id)"
                    class="block w-full mt-1 py-2 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition">Add to cart</a>
                     <!-- product content-end -->
                 </div>
@@ -218,3 +160,24 @@
             <!-- product grid-end -->
         </div>
         <!-- product-end -->
+@section scripts {
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        function addToCart(pid) {
+            console.log(pid)
+            event.preventDefault()
+            // send an AJAX request to add the item to the cart
+            $.ajax({
+                url: '@Url.Action("AddToCart", "ShoppingCart")',
+                type: 'GET',
+                data: { id: pid },
+                success: function (result) {
+                    // update the cart count in the layout
+                    $('#cart-icon').text(result);
+                    console.log(result);
+                }
+            });
+        }
+    </script>
+}
+@*@HttpContextAccessor.HttpContext.Session.GetInt32("cartCount") *@

@@ -19,6 +19,7 @@ namespace E_commerceMVCProject
             builder.Services.AddDbContext<EComEntity>(options=>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
             );
+            builder.Services.AddSession();
             builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
             builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -30,7 +31,7 @@ namespace E_commerceMVCProject
             builder.Services.AddScoped<IProductBrandService, ProductBrandService>();
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<EComEntity>().AddDefaultTokenProviders();
-
+            builder.Services.AddSingleton<Counter>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -41,7 +42,7 @@ namespace E_commerceMVCProject
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -14,7 +14,6 @@ namespace E_commerceMVCProject.Controllers
     public class ShoppingCartController : Controller
     {
         private readonly IShoppingCartService _cartService;
-        int cartCount = 0;
 
         public ShoppingCartController(IShoppingCartService cartService)
         {
@@ -40,9 +39,8 @@ namespace E_commerceMVCProject.Controllers
                 cart.UserId = userId;
                 cart.Quantity = 1;
                 _cartService.AddCart(cart);
-                ++cartCount;
-                Response.Cookies.Append("CartCount",cartCount.ToString());
-                //ViewBag.cartCount = cartCount;
+                ++Counter.count;
+                HttpContext.Session.SetInt32("cartCount", Counter.count);
             }
             else
             {
@@ -56,7 +54,8 @@ namespace E_commerceMVCProject.Controllers
                     // out of stock
                 }
             }
-            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("Index", "Home");
+            return Json(Counter.count);
         }
 
         public IActionResult PlusCart(int id)
@@ -72,7 +71,8 @@ namespace E_commerceMVCProject.Controllers
             {
                 // out of stock
             }
-            return RedirectToAction("Index");
+            return Json(cart.Quantity);
+            // return RedirectToAction("Index");
         }
 
         public IActionResult MinusCart(int id)
@@ -86,15 +86,22 @@ namespace E_commerceMVCProject.Controllers
             }
             else
             {
+                --Counter.count;
+                cart.Quantity = 0;
+                //HttpContext.Session.SetInt32("cartCount", Counter.count);
                 _cartService.DeletefromCart(id);
             }
-            return RedirectToAction("Index");
+            return Json(cart.Quantity);
+            //return RedirectToAction("Index");
         }
 
         public IActionResult RemoveFromCart(int id)
         {
+            --Counter.count;
+            HttpContext.Session.SetInt32("cartCount", Counter.count);
             _cartService.DeletefromCart(id);
-            return RedirectToAction("Index");
+            return Json("");
+            //return RedirectToAction("Index");
         }
     }
 }

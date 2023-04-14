@@ -4,78 +4,127 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>Register</h1>
-
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Register">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-                @if (TempData.ContainsKey("Emailfound"))
-                {
-                    <div class="text-danger" >
-                        @TempData["Emailfound"]
-                    </div>
-                }
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BirthDate" class="control-label"></label>
-                <input asp-for="BirthDate" class="form-control" />
-                <span asp-validation-for="BirthDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input asp-for="Gender" class="form-check-input" value="Male" type="radio" />
-                        Male
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input asp-for="Gender" class="form-check-input" value="Female" type="radio" />
-                        Female
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Login">Already Have Account</a>
+    <!-- register -->
+    <div>
+        <div class="max-w-lg mx-auto shadow px-6 my-16 py-7 rounded overflow-hidden">
+            <h2 class="text-2xl text-center uppercase font-medium mb-6">
+                register
+            </h2>
+
+            <form asp-action="Register">
+                <div asp-validation-summary="All" class="text-primary"></div>
+                <div class="form-group">
+                    <label asp-for="UserName"
+                           class="text-gray-600 mb-2 block">
+                        UserName
+                        <span class="text-primary">*</span>
+                    </label>
+                    <input asp-for="UserName" class="inputForm focus:outline-none block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400"
+                           placeholder="Enter your UserName " />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email"
+                           class="text-gray-600 mb-2 block">
+                        Email
+                        <span class="text-primary">*</span>
+
+                    </label>
+                    <input asp-for="Email" class="inputForm focus:outline-none block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400"
+                           placeholder="Enter your Email " />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                    @if (TempData.ContainsKey("Emailfound"))
+                    {
+                        <div class="text-danger">
+                            @TempData["Emailfound"]
+                        </div>
+                    }
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"
+                           class="text-gray-600 mb-2 block">
+                        Password
+                        <span class="text-primary">*</span>
+                    </label>
+                    <input asp-for="Password" class="inputForm focus:outline-none block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400"
+                           placeholder="Enter your Password " />
+                    <span asp-validation-for="Password" class="text-primary"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword"
+                           class="text-gray-600 mb-2 block">
+                        Confirm Password
+                        <span class="text-primary">*</span>
+                    </label>
+                    <input asp-for="ConfirmPassword" class="inputForm focus:outline-none block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400"
+                           placeholder="Enter your Comfirem Password " />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FullName"
+                           class="text-gray-600 mb-2 block">
+                        Full Name
+                        <span class="text-primary">*</span>
+                    </label>
+                    <input asp-for="FullName" class="inputForm focus:outline-none block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400"
+                           placeholder="Enter your FullName ">
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BirthDate"
+                           class="text-gray-600 mb-2 block">
+                        BirthDate
+                        <span class="text-primary">*</span>
+                    </label>
+                    <input asp-for="BirthDate" class="inputForm focus:outline-none block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400"
+                           placeholder="Enter your BirthDate " />
+                    <span asp-validation-for="BirthDate" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="Gender"
+                           class="text-gray-600 mb-2 block">
+                        Gender
+                        <span class="text-primary">*</span>
+                    </label>
+                    <div>
+                        <label>
+                            <input asp-for="Gender" value="Male" type="radio" />
+                            Male
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input asp-for="Gender" value="Female" type="radio" />
+                            Female
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address"
+                           class="text-gray-600 mb-2 block">
+                        Address
+                        <span class="text-primary">*</span>
+                    </label>
+                    <input asp-for="Address" class="inputForm focus:outline-none block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400"
+                           placeholder="Enter your Address " />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Register" class="bolck w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium" />
+
+                </div>
+            </form>
+
+            <p class="mt-4 text-gray-600 text-center">
+                Already have account?
+                <a asp-controller="Account" asp-action="Login" class="text-primary">Login Now</a>
+            </p>
+        </div>
+    </div>
+    <!-- register-end -->
+
 </div>
 
 @section Scripts {

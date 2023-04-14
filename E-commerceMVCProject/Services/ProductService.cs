@@ -33,7 +33,7 @@ namespace E_commerceMVCProject.Services
         }
         public ProductVM? GetProductById(int id)
         {
-            Product? product = _productRepository.GetAll().Include(p => p.Images).FirstOrDefault(p => p.Id == id);
+            Product? product = _productRepository.GetAll().Include(p => p.Images).Include(p=>p.ProductBrand).Include(p=>p.ProductCategory).FirstOrDefault(p => p.Id == id);
             return _mapper.Map<ProductVM>(product);
         }
         public ProductVM GetProductByIDNoTracking(int id)

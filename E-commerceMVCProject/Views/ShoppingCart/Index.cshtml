@@ -35,7 +35,7 @@
                 @foreach (var item in Model)
                 {
                     <!-- single product -->
-                    <div class="flex items-center hover:bg-gray-100 -mx-8 px-1 md:px-6 py-5">
+                    <div class="flex items-center hover:bg-gray-100 -mx-8 px-1 md:px-6 py-5" id="@item.Id">
                         <div class="flex w-2/5">
                             <!-- product-image -->
                             <div class="w-20">
@@ -46,7 +46,7 @@
                             <!-- product-name -->
                             <div class="flex flex-col justify-between ml-4 flex-grow">
                                 <span class="font-bold text-sm">@item.Product.Name</span>
-                                <a href="/ShoppingCart/RemoveFromCart/@item.Id">
+                                <a @*href="/ShoppingCart/RemoveFromCart/@item.Id"*@ onclick="removecart(@item.Id)">
                                     <div class="text-gray-600 cursor-pointer hover:text-primary">
                                         <i class="fas fa-trash"></i>
                                     </div>
@@ -55,7 +55,7 @@
                         </div>
                         <!-- product-quantity -->
                         <div class="flex items-center justify-center w-1/5">
-                            <a href="/ShoppingCart/MinusCart/@item.Id">
+                            <a @*href="/ShoppingCart/MinusCart/@item.Id"*@ onclick="minusCart(@item.Id)">
                                 <span class="cursor-pointer">
                                     <svg class="fill-current text-gray-600 w-2 lg:w-3"
                                      viewBox="0 0 448 512">
@@ -65,8 +65,8 @@
                             </a>
                             <input class="mx-1 md:mx-2 border text-center w-4 md:w-8 focus:outline-none"
                                type="text"
-                               value="@item.Quantity" />
-                            <a href="/ShoppingCart/PlusCart/@item.Id">
+                               value="@item.Quantity" id="quantity"/>
+                            <a @*href="/ShoppingCart/PlusCart/@item.Id"*@ onclick="plusCart(@item.Id)">
                                 <span class="cursor-pointer">
                                     <svg class="fill-current text-gray-600 w-2 lg:w-3"
                                      viewBox="0 0 448 512">
@@ -136,3 +136,57 @@
 </div>
 
 <!-- cart-end -->
+@section scripts {
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        function plusCart(pid) {
+            console.log(pid)
+            event.preventDefault()
+            // send an AJAX request to add the item to the cart
+            $.ajax({
+                url: '@Url.Action("PlusCart", "ShoppingCart")',
+                type: 'GET',
+                data: { id: pid },
+                success: function (result) {
+                    // update the cart count in the layout
+                    console.log(result);
+                    $('#quantity').val(result);
+                }
+            });
+        }
+        function minusCart(pid) {
+            console.log(pid)
+            event.preventDefault()
+            // send an AJAX request to add the item to the cart
+            $.ajax({
+                url: '@Url.Action("MinusCart", "ShoppingCart")',
+                type: 'GET',
+                data: { id: pid },
+                success: function (result) {
+                    // update the cart count in the layout
+                    console.log(result);
+                    if(result == 0 )
+                        $(`#${pid}`).remove();
+                    else
+                        $('#quantity').val(result);
+                }
+            });
+        }
+        function removecart(pid) {
+            console.log(pid)
+            event.preventDefault()
+            // send an AJAX request to add the item to the cart
+            $.ajax({
+                url: '@Url.Action("RemoveFromCart", "ShoppingCart")',
+                type: 'GET',
+                data: { id: pid },
+                success: function (result) {
+                    // update the cart count in the layout
+                    console.log(result);
+                    $(`#${pid}`).remove();
+
+                }
+            });
+        }
+    </script>
+}

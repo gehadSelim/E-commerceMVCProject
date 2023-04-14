@@ -30,11 +30,20 @@ namespace E_commerceMVCProject.Controllers
         public IActionResult Index()
         {
             List<ProductVM>? Products = _productService.GetAllProducts();
+            List<CategoryVM> categories = _productCategoryService.GetAllCategories();
+            ViewData["categoryList"] = categories;
             return View(Products);
         }
         public IActionResult Shop()
         {
-            return View();
+            List<ProductVM>? Products = _productService.GetAllProducts();
+            List<CategoryVM> categories = _productCategoryService.GetAllCategories();
+            List<BrandVM> brands = _productBrandService.GetAllBrands();
+
+            ViewData["categoryList"] = categories;
+            ViewData["brandList"] = brands;
+
+            return View(Products);
         }
         public IActionResult FilterByBrands(List<int> brandsIds)
         {
@@ -48,11 +57,12 @@ namespace E_commerceMVCProject.Controllers
             var filteredProducts = _productService.FilterByPrice(minPrice, maxPrice);
             return View("index", filteredProducts);
         }
-        public IActionResult FilterByCategory(int categoryId)
+        public IActionResult FilterByCategory(int id)
         {
-            var filteredProducts = _productService.GetByCategoryId(categoryId);
+            var filteredProducts = _productService.GetByCategoryId(id);
             return View("index", filteredProducts);
         }
+
         public IActionResult FilterByName(string searchName)
         {
             var filteredProducts = _productService.FilterByName(searchName);

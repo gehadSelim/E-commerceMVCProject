@@ -1,0 +1,812 @@
+﻿@model ProductVM
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<!-- breadcrums -->
+        <div class="container py-4 flex items-center gap-3">
+            <a href="index.html" class="text-primary text-base">
+                <i class="fas fa-home"></i>
+            </a>
+            <span class="text-sm text-gray-400">
+                <i class="fas fa-chevron-right"></i>
+            </span>
+            <a href="shop.html" class="text-primary font-medium">Shop</a>
+            <span class="text-sm text-gray-400">
+                <i class="fas fa-chevron-right"></i>
+            </span>
+            <p class="font-medium text-gray-600">@Model.Name</p>
+        </div>
+        <!-- breadcrums-end -->
+
+        <!-- product view -->
+        <div class="container flex gap-6 flex-wrap">
+            <!--  product image -->
+            <div
+                class="w-[320px] sm:w-[420px] md:lg:w-[510px] lg:w-[510px] max-h-[520]"
+            >
+                <img
+                    id="mainImage"
+                    src="/images/@Model.Name/@Model.Images.ElementAt(0).ImageName"
+                    alt="product-image"
+                    class="w-full mx-auto"
+                />
+                <div
+                    id="imgWrapper"
+                    class="flex justify-center gap-0 sm:gap-2 lg:gap-8 mt-4 w-full"
+                >
+                    <button class="smallImageBtn1">
+                        <img
+                            src="/images/@Model.Name/@Model.Images.ElementAt(0).ImageName"
+                            alt="product-images"
+                            class="min-w-[80px] max-h-20 sm:min-w-[96px] sm:max-h-20 lg:min-w-[100px] lg:h-24 cursor-pointer border"
+                        />
+                    </button>
+
+                    <button class="smallImageBtn2">
+                        <img src="/images/@Model.Name/@Model.Images.ElementAt(0).ImageName"
+                     alt="product-images"
+                            class="min-w-[80px] max-h-20 sm:min-w-[96px] sm:max-h-20 lg:min-w-[100px] lg:h-24 cursor-pointer border"
+                        />
+                    </button>
+                    <button class="smallImageBtn3">
+                        <img src="/images/@Model.Name/@Model.Images.ElementAt(0).ImageName"
+                     alt="product-images"
+                            class="min-w-[80px] max-h-20 sm:min-w-[96px] sm:max-h-20 lg:min-w-[100px] lg:h-24 cursor-pointer border"
+                        />
+                    </button>
+                    <button class="smallImageBtn4">
+                        <img src="/images/@Model.Name/@Model.Images.ElementAt(0).ImageName"
+                     alt="product-images"
+                            class="min-w-[80px] max-h-20 sm:min-w-[96px] sm:max-h-20 lg:min-w-[100px] lg:h-24 cursor-pointer border"
+                        />
+                    </button>
+                </div>
+            </div>
+            <!-- product image-end -->
+
+            <!-- product content -->
+            <div w-[400px]>
+                <h2 class="text-3xl font-medium uppercase mb-2">
+                    new @Model.Name data
+                </h2>
+                <div class="flex items-center mb-4">
+                    <div class="flex gap-1 text-sm text-yellow-400">
+                        <span><i class="fas fa-star"></i></span>
+                        <span><i class="fas fa-star"></i></span>
+                        <span><i class="fas fa-star"></i></span>
+                        <span><i class="fas fa-star"></i></span>
+                        <span><i class="fas fa-star"></i></span>
+                    </div>
+                    <div class="text-xs text-gray-500 ml-3">(150 reviews)</div>
+                </div>
+                <div class="space-y-2">
+                    <p class="text-gray-800 font-semibold space-x-2">
+                        <span>Availability:</span>
+                        <span class="text-green-600">In Stock</span>
+                    </p>
+                    <p class="space-x-2">
+                        <span class="text-gray-800 font-semibold">Brand:</span>
+                        <span class="text-gray-600">@Model.ProductBrand.Name</span>
+                    </p>
+                    <p class="space-x-2">
+                        <span class="text-gray-800 font-semibold"
+                            >Category:</span
+                        >
+                        <span class="text-gray-600">@Model.ProductCategory.Name</span>
+                    </p>
+                    <p class="space-x-2">
+                        <span class="text-gray-800 font-semibold"
+                            >Availability: @Model.StockCount</span
+                        >
+                        <span class="text-gray-600">In Stock</span>
+                    </p>
+                </div>
+                <!-- price -->
+                <div
+                    class="flex items-baseline mb-1 space-x-2 font-roboto mt-4"
+                >
+                    <p class="text-2xl text-primary font-semibold">$@Model.SellingPrice</p>
+                    <p class="text-base text-gray-400 line-through">$@Model.BuyingPrice</p>
+                </div>
+                <!-- price-end -->
+
+                <!-- description -->
+                <p class="mt-4 text-gray-600 w-80 sm:w-96">
+                    @Model.Description
+                </p>
+                <!-- description-end -->
+
+                <!-- add to cart btn -->
+                <div class="flex gap-3 pb-5 mt-6">
+                    <a
+                        href="/ShoppingCart/addToCart/@Model.Id"
+                        class="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-opacity-0 hover:text-primary transition"
+                    >
+                        <i class="fas fa-shopping-bag"></i>Add to cart</a
+                    >
+                    <a
+                        href=""
+                        class="border border-gray-300 text-gray-600 px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-primary transition"
+                    >
+                        <i class="fas fa-heart"></i>Wishlist</a
+                    >
+                </div>
+                <!-- add to cart btn-end -->
+            </div>
+            <!-- product content-end -->
+        </div>
+        <!-- product view-end -->
+
+        <!-- product more detail -->
+        <div class="container pb-16">
+            <h3
+                class="border-b border-gray-200 font roboto text-gray-800 pb-3 font-medium"
+            >
+                product detail
+            </h3>
+            <div class="w-3/5 pt-6">
+                <div class="text-gray-600 space-y-3">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Nostrum maxime perspiciatis laborum nobis? Cupiditate,
+                        fugiat possimus ea voluptas deserunt expedita quas
+                        blanditiis vel consequatur officiis optio debitis rerum
+                        quibusdam! Porro.
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Nostrum maxime perspiciatis laborum nobis? Cupiditate,
+                        fugiat possimus ea voluptas deserunt expedita quas
+                        blanditiis vel consequatur officiis optio debitis rerum
+                        quibusdam! Porro.
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Nostrum maxime perspiciatis laborum nobis? Cupiditate,
+                        fugiat possimus ea voluptas deserunt expedita quas
+                        blanditiis vel consequatur officiis optio debitis rerum
+                        quibusdam! Porro.
+                    </p>
+                </div>
+                <!-- table -->
+                <table
+                    class="table-auto border-collapse w-full text-left text-gray-600 text-sm mt-6"
+                >
+                    <tr>
+                        <th class="py-2 px-4 border border-gray-300 w-40">
+                            Color
+                        </th>
+                        <th
+                            class="py-2 px-4 border border-gray-300 font-medium"
+                        >
+                            Black, Brown, Red
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="py-2 px-4 border border-gray-300 w-40">
+                            material
+                        </th>
+                        <th
+                            class="py-2 px-4 border border-gray-300 font-medium"
+                        >
+                            wood
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="py-2 px-4 border border-gray-300 w-40">
+                            Weight
+                        </th>
+                        <th
+                            class="py-2 px-4 border border-gray-300 font-medium"
+                        >
+                            55kg
+                        </th>
+                    </tr>
+                </table>
+                <!-- table-end -->
+            </div>
+        </div>
+        <!-- product more detail-end -->
+
+        <!-- reviews -->
+        <div class="container mb-8">
+            <h2 class="text-2xl font-medium text-gray-800 uppercase mb-6">
+                Reviews
+            </h2>
+            <div class="space-y-4">
+                <!-- single review -->
+                <div class="flex gap-6 shadow rounded p-4 bg-gray-100">
+                    <!-- left -->
+                    <img
+                        src="./img/iti-logo.png"
+                        alt="user image"
+                        class="rounded-full w-8 h-8 lg:w-14 lg:h-14 border border-gray-200 lg:p-1 md:p-1 object-cover"
+                    />
+                    <!-- right -->
+                    <div>
+                        <div class="pb-2">
+                            <h3 class="block font-medium capitalize">
+                                userName
+                            </h3>
+                            <div class="flex gap-1 text-xs text-yellow-400">
+                                <span><i class="fas fa-star"></i></span>
+                                <span><i class="fas fa-star"></i></span>
+                                <span><i class="fas fa-star"></i></span>
+                                <span><i class="fas fa-star"></i></span>
+                                <span><i class="fas fa-star"></i></span>
+                            </div>
+                        </div>
+
+                        <p>aaaaaaa aaaaaaaaaa aaaaaaaaa aaaaaaaaaaaa</p>
+                        <p class="ml-4 text-xs text-gray-400">
+                            Published 4 weeks ago
+                        </p>
+                        <div class="flex gap-4 items-center m-4">
+                            <i
+                                class="fa fa-thumbs-up text-blue-500 cursor-pointer"
+                            ></i>
+                            <i
+                                class="fa fa-thumbs-down text-red-500 cursor-pointer"
+                            ></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- single review-end -->
+                <!-- single review -->
+                <div class="flex gap-6 shadow rounded p-4 bg-gray-100">
+                    <!-- left -->
+                    <img
+                        src="./img/iti-logo.png"
+                        alt="user image"
+                        class="rounded-full w-8 h-8 lg:w-14 lg:h-14 border border-gray-200 lg:p-1 md:p-1 object-cover"
+                    />
+                    <!-- right -->
+                    <div>
+                        <div class="pb-2">
+                            <h3 class="block font-medium capitalize">
+                                userName
+                            </h3>
+                            <div class="flex gap-1 text-xs text-yellow-400">
+                                <span><i class="fas fa-star"></i></span>
+                                <span><i class="fas fa-star"></i></span>
+                                <span><i class="fas fa-star"></i></span>
+                                <span><i class="fas fa-star"></i></span>
+                                <span><i class="fas fa-star"></i></span>
+                            </div>
+                        </div>
+
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Sapiente officia veniam eius soluta dolorum
+                            perferendis ad voluptas quia natus quidem maiores
+                            voluptatum quis deserunt, magnam ex id iure dolores
+                            laudantium!
+                        </p>
+                        <p class="ml-4 text-xs text-gray-400">
+                            Published 4 weeks ago
+                        </p>
+                        <div class="flex gap-4 items-center m-4">
+                            <i
+                                class="fa fa-thumbs-up text-blue-500 cursor-pointer"
+                            ></i>
+                            <i
+                                class="fa fa-thumbs-down text-red-500 cursor-pointer"
+                            ></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- single review-end -->
+
+                <!-- add review -->
+                <form id="form">
+                    <h2 class="text-lg font-medium text-gray-800">
+                        add review
+                    </h2>
+                    <div class="grid grid-cols-1 gap-4">
+                        <!-- single input -->
+
+                        <div class="rate">
+                            <input
+                                type="radio"
+                                id="star5"
+                                name="rate"
+                                value="5"
+                            />
+                            <label id="5" for="star5" title="text">5</label>
+                            <input
+                                type="radio"
+                                id="star4"
+                                name="rate"
+                                value="4"
+                            />
+                            <label id="4" for="star4" title="text">4</label>
+                            <input
+                                type="radio"
+                                id="star3"
+                                name="rate"
+                                value="3"
+                            />
+                            <label id="3" for="star3" title="text">3</label>
+                            <input
+                                type="radio"
+                                id="star2"
+                                name="rate"
+                                value="2"
+                            />
+                            <label id="2" for="star2" title="text">2</label>
+                            <input
+                                type="radio"
+                                id="star1"
+                                name="rate"
+                                value="1"
+                            />
+                            <label id="1" for="star1" title="text">1</label>
+                        </div>
+                        <input
+                            type="hidden"
+                            id="custId"
+                            name="custId"
+                            value="0"
+                        />
+                        <textarea
+                            type="text-area"
+                            class="inputForm block w-full border border-gray-300 px-4 py-8 text-gray-600 text-lg rounded focus:ring-0 focus:outline-none placeholder-gray-400"
+                            placeholder="review"
+                        ></textarea>
+                        <button
+                            type="submit"
+                            class="bolck w-48 py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
+                        >
+                            add
+                        </button>
+                    </div>
+
+                    <!-- single input-end -->
+                </form>
+                <!-- add review-end -->
+            </div>
+        </div>
+        <!-- reviews-end -->
+
+        <!-- product -->
+        <div class="container pb-16">
+            <h2
+                class="text-2xl font-medium text-gray-800 uppercase mb-6 flex justify-center"
+            >
+                related products
+            </h2>
+
+            <!-- product grid -->
+            <div class="flex justify-center">
+                <div
+                    class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
+                    <!-- single product -->
+                    <div
+                        class="w-72 bg-white rounded overflow-hidden drop-shadow-md group"
+                    >
+                        <!-- product image -->
+                        <div class="relative">
+                            <img
+                                src="./img/chair1.avif"
+                                alt="product_img"
+                                class="w-full h-56"
+                            />
+                            <div
+                                class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"
+                            >
+                                <a
+                                    href=""
+                                    class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                    ><i class="fas fa-search"></i
+                                ></a>
+                                <a
+                                    href=""
+                                    class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                    ><i class="far fa-heart"></i
+                                ></a>
+                            </div>
+                        </div>
+                        <!-- product image-end -->
+
+                        <!-- product content -->
+                        <div class="pt-4 pb-3 px-4">
+                            <!-- name -->
+                            <a
+                                href=""
+                                class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition"
+                                >chair</a
+                            >
+                            <!-- price -->
+                            <div
+                                class="flex items-baseline mb-1 space-x-2 font-roboto"
+                            >
+                                <p class="text-xl text-primary font-semibold">
+                                    $45.00
+                                </p>
+                                <p class="text-sm text-gray-400 line-through">
+                                    $55.00
+                                </p>
+                            </div>
+                            <!-- stars -->
+                            <div class="flex items-center">
+                                <div class="flex gap-1 text-sm text-yellow-400">
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                </div>
+                                <div class="text-xs text-gary-500 ml-3">
+                                    (150)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- add to cart btn -->
+                        <a
+                            href=""
+                            class="block w-full mt-1 py-2 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+                            >Add to cart</a
+                        >
+                        <!-- product content-end -->
+                    </div>
+                    <!-- single product-end -->
+                    <!-- single product -->
+                    <div
+                        class="w-72 bg-white rounded overflow-hidden drop-shadow-md group"
+                    >
+                        <!-- product image -->
+                        <div class="relative">
+                            <img
+                                src="./img/chair1.avif"
+                                alt="product_img"
+                                class="w-full h-56"
+                            />
+                            <div
+                                class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"
+                            >
+                                <a
+                                    href=""
+                                    class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                    ><i class="fas fa-search"></i
+                                ></a>
+                                <a
+                                    href=""
+                                    class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                    ><i class="far fa-heart"></i
+                                ></a>
+                            </div>
+                        </div>
+                        <!-- product image-end -->
+
+                        <!-- product content -->
+                        <div class="pt-4 pb-3 px-4">
+                            <!-- name -->
+                            <a
+                                href=""
+                                class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition"
+                                >chair</a
+                            >
+                            <!-- price -->
+                            <div
+                                class="flex items-baseline mb-1 space-x-2 font-roboto"
+                            >
+                                <p class="text-xl text-primary font-semibold">
+                                    $45.00
+                                </p>
+                                <p class="text-sm text-gray-400 line-through">
+                                    $55.00
+                                </p>
+                            </div>
+                            <!-- stars -->
+                            <div class="flex items-center">
+                                <div class="flex gap-1 text-sm text-yellow-400">
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                </div>
+                                <div class="text-xs text-gary-500 ml-3">
+                                    (150)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- add to cart btn -->
+                        <a
+                            href=""
+                            class="block w-full mt-1 py-2 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+                            >Add to cart</a
+                        >
+                        <!-- product content-end -->
+                    </div>
+                    <!-- single product-end -->
+                    <!-- single product -->
+                    <div
+                        class="w-72 bg-white rounded overflow-hidden drop-shadow-md group"
+                    >
+                        <!-- product image -->
+                        <div class="relative">
+                            <img
+                                src="./img/chair1.avif"
+                                alt="product_img"
+                                class="w-full h-56"
+                            />
+                            <div
+                                class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"
+                            >
+                                <a
+                                    href=""
+                                    class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                    ><i class="fas fa-search"></i
+                                ></a>
+                                <a
+                                    href=""
+                                    class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                    ><i class="far fa-heart"></i
+                                ></a>
+                            </div>
+                        </div>
+                        <!-- product image-end -->
+
+                        <!-- product content -->
+                        <div class="pt-4 pb-3 px-4">
+                            <!-- name -->
+                            <a
+                                href=""
+                                class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition"
+                                >chair</a
+                            >
+                            <!-- price -->
+                            <div
+                                class="flex items-baseline mb-1 space-x-2 font-roboto"
+                            >
+                                <p class="text-xl text-primary font-semibold">
+                                    $45.00
+                                </p>
+                                <p class="text-sm text-gray-400 line-through">
+                                    $55.00
+                                </p>
+                            </div>
+                            <!-- stars -->
+                            <div class="flex items-center">
+                                <div class="flex gap-1 text-sm text-yellow-400">
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                </div>
+                                <div class="text-xs text-gary-500 ml-3">
+                                    (150)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- add to cart btn -->
+                        <a
+                            href=""
+                            class="block w-full mt-1 py-2 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+                            >Add to cart</a
+                        >
+                        <!-- product content-end -->
+                    </div>
+                    <!-- single product-end -->
+                    <!-- single product -->
+                    <div
+                        class="w-72 bg-white rounded overflow-hidden drop-shadow-md group"
+                    >
+                        <!-- product image -->
+                        <div class="relative">
+                            <img
+                                src="./img/chair1.avif"
+                                alt="product_img"
+                                class="w-full h-56"
+                            />
+                            <div
+                                class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"
+                            >
+                                <a
+                                    href=""
+                                    class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                    ><i class="fas fa-search"></i
+                                ></a>
+                                <a
+                                    href=""
+                                    class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                    ><i class="far fa-heart"></i
+                                ></a>
+                            </div>
+                        </div>
+                        <!-- product image-end -->
+
+                        <!-- product content -->
+                        <div class="pt-4 pb-3 px-4">
+                            <!-- name -->
+                            <a
+                                href=""
+                                class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition"
+                                >chair</a
+                            >
+                            <!-- price -->
+                            <div
+                                class="flex items-baseline mb-1 space-x-2 font-roboto"
+                            >
+                                <p class="text-xl text-primary font-semibold">
+                                    $45.00
+                                </p>
+                                <p class="text-sm text-gray-400 line-through">
+                                    $55.00
+                                </p>
+                            </div>
+                            <!-- stars -->
+                            <div class="flex items-center">
+                                <div class="flex gap-1 text-sm text-yellow-400">
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                </div>
+                                <div class="text-xs text-gary-500 ml-3">
+                                    (150)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- add to cart btn -->
+                        <a
+                            href=""
+                            class="block w-full mt-1 py-2 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+                            >Add to cart</a
+                        >
+                        <!-- product content-end -->
+                    </div>
+                    <!-- single product-end -->
+                    <!-- single product -->
+                    <div
+                        class="w-72 bg-white rounded overflow-hidden drop-shadow-md group"
+                    >
+                        <!-- product image -->
+                        <div class="relative">
+                            <img
+                                src="./img/chair1.avif"
+                                alt="product_img"
+                                class="w-full h-56"
+                            />
+                            <div
+                                class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"
+                            >
+                                <a
+                                    href=""
+                                    class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                    ><i class="fas fa-search"></i
+                                ></a>
+                                <a
+                                    href=""
+                                    class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                    ><i class="far fa-heart"></i
+                                ></a>
+                            </div>
+                        </div>
+                        <!-- product image-end -->
+
+                        <!-- product content -->
+                        <div class="pt-4 pb-3 px-4">
+                            <!-- name -->
+                            <a
+                                href=""
+                                class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition"
+                                >chair</a
+                            >
+                            <!-- price -->
+                            <div
+                                class="flex items-baseline mb-1 space-x-2 font-roboto"
+                            >
+                                <p class="text-xl text-primary font-semibold">
+                                    $45.00
+                                </p>
+                                <p class="text-sm text-gray-400 line-through">
+                                    $55.00
+                                </p>
+                            </div>
+                            <!-- stars -->
+                            <div class="flex items-center">
+                                <div class="flex gap-1 text-sm text-yellow-400">
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                </div>
+                                <div class="text-xs text-gary-500 ml-3">
+                                    (150)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- add to cart btn -->
+                        <a
+                            href=""
+                            class="block w-full mt-1 py-2 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+                            >Add to cart</a
+                        >
+                        <!-- product content-end -->
+                    </div>
+                    <!-- single product-end -->
+                    <!-- single product -->
+                    <div
+                        class="w-72 bg-white rounded overflow-hidden drop-shadow-md group"
+                    >
+                        <!-- product image -->
+                        <div class="relative">
+                            <img
+                                src="./img/chair1.avif"
+                                alt="product_img"
+                                class="w-full h-56"
+                            />
+                            <div
+                                class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"
+                            >
+                                <a
+                                    href=""
+                                    class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                    ><i class="fas fa-search"></i
+                                ></a>
+                                <a
+                                    href=""
+                                    class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                    ><i class="far fa-heart"></i
+                                ></a>
+                            </div>
+                        </div>
+                        <!-- product image-end -->
+
+                        <!-- product content -->
+                        <div class="pt-4 pb-3 px-4">
+                            <!-- name -->
+                            <a
+                                href=""
+                                class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition"
+                                >chair</a
+                            >
+                            <!-- price -->
+                            <div
+                                class="flex items-baseline mb-1 space-x-2 font-roboto"
+                            >
+                                <p class="text-xl text-primary font-semibold">
+                                    $45.00
+                                </p>
+                                <p class="text-sm text-gray-400 line-through">
+                                    $55.00
+                                </p>
+                            </div>
+                            <!-- stars -->
+                            <div class="flex items-center">
+                                <div class="flex gap-1 text-sm text-yellow-400">
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                    <span><i class="fas fa-star"></i></span>
+                                </div>
+                                <div class="text-xs text-gary-500 ml-3">
+                                    (150)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- add to cart btn -->
+                        <a
+                            href=""
+                            class="block w-full mt-1 py-2 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+                            >Add to cart</a
+                        >
+                        <!-- product content-end -->
+                    </div>
+                    <!-- single product-end -->
+                </div>
+            </div>
+
+            <!-- product grid-end -->
+        </div>
+        <!-- product-end -->

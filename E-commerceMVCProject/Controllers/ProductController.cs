@@ -90,7 +90,7 @@ namespace E_commerceMVCProject.Controllers
                         }
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Home");
             }
             newProduct = new ProductVM()
             {

@@ -12,7 +12,10 @@
     animation-name: fade;
     animation-duration: 1s;
 }
-
+.img-user {
+    width: 150px;
+    margin: auto
+}
 #img_slide {
     width: 100%;
 }

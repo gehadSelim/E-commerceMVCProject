@@ -57,6 +57,7 @@ namespace E_commerceMVCProject.Controllers
             order.TotalPrice = TotalPrice;
             order.TotalPriceAfterTax = Taxes + TotalPrice;
             _orderService.CreateOrder(order);
+            Counter.count = 0;
             return RedirectToAction("Index", "Home");
         }
     }

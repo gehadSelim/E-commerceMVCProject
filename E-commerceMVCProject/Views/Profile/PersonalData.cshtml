@@ -1,42 +1,76 @@
 ﻿@model E_commerceMVCProject.viewmodels.RegisterVM
 <div>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+    <dl>
+        <div class="grid mt-3 grid-cols-2 lg:grid-cols-2 gap-1">
+            <dt class="text-primary">
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
 
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BirthDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BirthDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+            <dt class="text-primary">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+        </div>
+
+
+        <div class=" grid my-3 grid-cols-2 lg:grid-cols-2 gap-1">
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+        </div>
+        <hr />
+
+        <div class=" grid mt-3 grid-cols-2 lg:grid-cols-2 gap-1">
+
+            <dt class="text-primary">
+                @Html.DisplayNameFor(model => model.FullName)
+            </dt>
+
+            <dt class="text-primary">
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </dt>
+        </div>
+
+
+        <div class=" grid my-3 grid-cols-2 lg:grid-cols-2 gap-1">
+            <dd>
+                @Html.DisplayFor(model => model.FullName)
+            </dd>
+
+            <dd>
+                @Html.DisplayFor(model => model.BirthDate)
+            </dd>
+        </div>
+
+        <hr />
+
+
+        <div class=" grid mt-3 grid-cols-2 lg:grid-cols-2 gap-1">
+
+            <dt class="text-primary">
+                @Html.DisplayNameFor(model => model.Gender)
+            </dt>
+            <dt class="text-primary">
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+        </div>
+
+
+        <div class=" grid mt-3 grid-cols-2 lg:grid-cols-2 gap-1">
+            <dd>
+                @Html.DisplayFor(model => model.Gender)
+            </dd>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+        </div>
+
+
+
     </dl>
 </div>

@@ -28,7 +28,7 @@ namespace E_commerceMVCProject.Services
 
         public ShoppingCartVM GetCartById(int id)
         {
-            ShoppingCart cart = _cartRepository.GetAll().Include(c => c.Product).FirstOrDefault(c => c.Id == id);
+            ShoppingCart cart = _cartRepository.GetAll().Include(c => c.Product).AsNoTracking().FirstOrDefault(c => c.Id == id);
             return _mapper.Map<ShoppingCartVM>(cart);
         }
 

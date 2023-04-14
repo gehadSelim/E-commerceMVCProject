@@ -16,6 +16,8 @@ namespace E_commerceMVCProject.viewmodels
         public decimal StockCount { get; set; }
         public decimal SellingPrice { get; set; }
         public decimal BuyingPrice { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
+        public virtual ProductBrand ProductBrand { get; set; }
 
         [DisplayName("Category Name")]
         public int CategoryId { get; set; }
