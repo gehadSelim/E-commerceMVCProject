@@ -83,7 +83,7 @@
                             total = @Math.Round((@item.Quantity * @item.Product.SellingPrice), 2);
                             totalOrder += total;
                         }
-                        <span class="text-center w-1/5 text-primary text-sm md:text-lg font-semibold p-2">$ @total</span>
+                        <span class="text-center w-1/5 text-primary text-sm md:text-lg font-semibold p-2" id="total">$ @total</span>
                     </div>
                     <!-- single product-end -->
                 }
@@ -110,19 +110,19 @@
                     <div class="py-4">
                         <label for="total"
                                class="font-semibold inline-block mb-3 text-sm uppercase">Total cost Before Tax</label>
-                        $<input input type="text" name="total" value="@totalOrder"
+                        $<input input type="text" name="total" value="@totalOrder" id="before"
                                 class="p-2 text-sm w-full focus:outline-none rounded inputForm" />
                     </div>
                     <div class="py-2">
                         <label for="total"
                                class="font-semibold inline-block mb-3 text-sm uppercase">Total Tax</label>
-                        $<input input type="text" name="tax" value="@(15 * totalOrder/100)"
+                        $<input input type="text" name="tax" value="@(15 * totalOrder/100)" id="tax"
                                 class="p-2 text-sm w-full focus:outline-none rounded inputForm" />
                     </div>
                     <div class="py-2">
                         <label for="total"
                                class="font-semibold inline-block mb-3 text-sm uppercase">Total cost After Tax</label>
-                        $<input input type="text" name="totalAfter" value="@((15 * totalOrder/100)+totalOrder)"
+                        $<input input type="text" name="totalAfter" value="@((15 * totalOrder/100)+totalOrder)" id="after"
                                 class="p-2 text-sm w-full focus:outline-none rounded inputForm" />
                     </div>
                     <div class="border-t mt-4">
@@ -140,6 +140,7 @@
     <script src="/lib/jquery/dist/jquery.min.js"></script>
     <script>
         function plusCart(pid) {
+            var total = parseInt($('#before').val());
             console.log(pid)
             event.preventDefault()
             // send an AJAX request to add the item to the cart
@@ -150,12 +151,18 @@
                 success: function (result) {
                     // update the cart count in the layout
                     console.log(result);
-                    $('#quantity').val(result);
+                    total += result.price;
+                    $('#total').text(result.quantity * result.price);
+                    $('#quantity').val(result.quantity);
+                    $('#before').val(total);
+                    $('#tax').val(total * 0.15);
+                    $('#after').val( total + total * 0.15); 
                 }
             });
         }
         function minusCart(pid) {
             console.log(pid)
+            var total = parseInt($('#before').val());
             event.preventDefault()
             // send an AJAX request to add the item to the cart
             $.ajax({
@@ -165,10 +172,16 @@
                 success: function (result) {
                     // update the cart count in the layout
                     console.log(result);
+                    total -= result.price;
+                    $('#total').text(result.quantity * result.price);
+                    $('#before').val(total);
+                    $('#tax').val(total * 0.15);
+                    $('#after').val(total + total * 0.15);
                     if(result == 0 )
                         $(`#${pid}`).remove();
                     else
-                        $('#quantity').val(result);
+                        $('#quantity').val(result.quantity);
+
                 }
             });
         }

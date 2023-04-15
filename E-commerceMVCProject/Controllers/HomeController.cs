@@ -49,24 +49,24 @@ namespace E_commerceMVCProject.Controllers
         {
             var filteredProducts = _productService.FilterbyBrands(brandsIds);
             List<ProductVM> flattenedList = filteredProducts.SelectMany(d => d).ToList();
-            return View("index", flattenedList);
+            return View("Index", flattenedList);
         }
 
         public IActionResult FilterByPrice(int minPrice, int maxPrice)
         {
             var filteredProducts = _productService.FilterByPrice(minPrice, maxPrice);
-            return View("index", filteredProducts);
+            return View("Index", filteredProducts);
         }
         public IActionResult FilterByCategory(int id)
         {
             var filteredProducts = _productService.GetByCategoryId(id);
-            return View("index", filteredProducts);
+            return View("Index", filteredProducts);
         }
 
         public IActionResult FilterByName(string searchName)
         {
             var filteredProducts = _productService.FilterByName(searchName);
-            return View("index", filteredProducts);
+            return View("Index", filteredProducts);
         }
         public IActionResult Details(int id)
         {

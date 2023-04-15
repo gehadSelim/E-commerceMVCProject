@@ -71,7 +71,7 @@ namespace E_commerceMVCProject.Controllers
             {
                 // out of stock
             }
-            return Json(cart.Quantity);
+            return Json(new{ quantity = cart.Quantity,price = cart.Product.SellingPrice});
             // return RedirectToAction("Index");
         }
 
@@ -91,7 +91,7 @@ namespace E_commerceMVCProject.Controllers
                 //HttpContext.Session.SetInt32("cartCount", Counter.count);
                 _cartService.DeletefromCart(id);
             }
-            return Json(cart.Quantity);
+            return Json(new { quantity = cart.Quantity, price = cart.Product.SellingPrice });
             //return RedirectToAction("Index");
         }
 
